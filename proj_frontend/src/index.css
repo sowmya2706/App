@@ -1,0 +1,78 @@
+/* 
+.list-group img{
+  
+  height:80px;
+  /* size:50px; */
+  /* margin-left:40px;
+}
+.body{
+  height:100vh;
+  background-image: url('https://media.istockphoto.com/id/1165052026/photo/woman-using-mobile-smart-phone-in-the-night-light-colorful-background.jpg?s=170667a&w=0&k=20&c=I-7wAM_UG9CyImwlzCOxBt4njhQdDdy9m1_f1rzJ6Uk=');
+  background-size:cover;
+  font-family:sans-serif;
+ margin-top: 80px;
+    padding: 30px;
+}
+.content{
+  color:white;
+  margin: 6px;
+  text-align:center;
+  font-size: 20px;
+  font-style: sans-serif;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  letter-spacing: 1.5px;
+}
+.list-group{
+  background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    display: flex;
+align-items:center;
+box-shadow:0 0 25px 0 black;
+/*margin-right:50px;*/
+/* }
+ .list-group *{
+  display: inline-block;
+  padding-right:30px;
+}
+.list-group list-group-item{
+  margin:20px;
+}
+ .list-group-item a{
+  color:black;
+  text-decoration:none;
+}
+.btn{
+  background-color:#cecdd2;
+  /*background-color: #aa5d9d ;*/
+  /* border:none;
+  border-radius: 7px;
+  padding: 5px;
+}
+  .list-group btn{
+    align-self: center;
+  }
+ 
+  
+
+.btn-Link{
+   text-decoration: none; 
+
+  color:rgb(22, 48, 190);
+
+}
+.button{
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  /*optional*/
+  /* font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  /* color:black;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: medium;
+}  */ 
