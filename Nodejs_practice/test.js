@@ -139,6 +139,59 @@ exports.get=async function get() {
 }
 
 }
+exports.getsupplierforitem=async function getsupplierforitem() {
+      
+      let a=[];
+
+
+      let connection;
+      try {
+            
+
+            connection=await dbcon.connect();
+           
+
+
+            result = await connection.execute(
+                  "select SUPPLIER from SUPPLIER",
+                  [], {
+                  resultSet: true,
+                  outFormat: oracledb.OUT_FORMAT_OBJECT
+                
+                  }
+                 
+            );
+        
+            console.log('result:',result);
+
+            rs = result.resultSet;
+
+            let row;
+            while ((row = await rs.getRow())) {
+                  console.log(row);
+                a.push(row)
+            }
+            console.log("",a);
+            await rs.close();
+
+            return a ;
+      } catch (err) {
+
+            console.error(err);
+          //  return err;
+      }
+       finally {
+
+    if (connection) {
+          try {
+          await connection.close();
+          } catch (err) {
+          console.error(err);
+          }
+    }
+}
+
+}
 
 //module.exports={get};
 //module.exports.run=run;

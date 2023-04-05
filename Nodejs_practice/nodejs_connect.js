@@ -34,6 +34,19 @@ app.get('/get',async (req,res)=>{
       
 
 })
+app.get('/getsupplierforitem',async (req,res)=>{
+  
+
+    console.log('get supplier for item');
+    await dbData.getsupplierforitem().then(row =>{
+        console.log("Data supplierforitem: ",row);
+        res.json(row)
+        
+    })
+    
+      
+
+})
 //inserted piece of code
 app.get('/getval',async(req,res)=>{
     console.log('checking for the value',req.query);
@@ -149,6 +162,13 @@ app.get('/getitemforpo',async(req,res)=>{
         res.json(row);
     })
 })
+app.get('/getorderno',async(req,res)=>{
+    
+     await po.getorderno().then(row=>{
+         console.log("the number is",row);
+         res.json(row);
+     })
+ })
 app.get('/getitemforpostore',async(req,res)=>{
     console.log("backend check for po stofetxg",req.query)
      await po.getitemforpostore(req.query).then(row=>{

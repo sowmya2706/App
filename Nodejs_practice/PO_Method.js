@@ -92,6 +92,52 @@ if (connection) {
 
 }
 }
+exports.getorderno=async function getorderno()
+{
+
+    let a=[];
+    let connection;
+      try {
+        connection=await dbcon.connect();
+
+        resultitem = await connection.execute(
+            "select order_seq.nextval from dual",
+            //   `select ITEM from ITEM where SUPPLIER='${ff}'`,
+             
+              [], {
+              resultSet: true,
+              outFormat: oracledb.OUT_FORMAT_OBJECT
+              }
+        );
+        console.log('resultfor item:',resultitem);
+
+        rsi = resultitem.resultSet;
+
+        let row;
+        while ((row = await rsi.getRow())) {
+              console.log(row);
+            a.push(row)
+        }
+        console.log("dsta is",a);
+        await rsi.close();
+
+        return a ;
+  } catch (err) {
+
+        console.error(err);
+  }
+   finally {
+
+if (connection) {
+      try {
+      await connection.close();
+      } catch (err) {
+      console.error(err);
+      }
+}
+
+}
+}
 exports.getitemforpostore=async function getitemforpostore(itemval)
 {
       console.log("inside getitempo for store",(itemval.STORE));
