@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import "../../App.css";
+import NavBar from '../Nav.js'
+// import '../Home.js'
+import './Storestyle.css' 
+// import '../Supplier/Supplier_style.css'
 import Service from '../Store/Service';
 import { Link } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+//import { Navigate } from "react-router-dom";
  class StoreCreation extends Component {
   constructor(props) {
     super(props)
@@ -30,8 +33,6 @@ error:{},
   }
   handleForm=(event)=>{
     var opdate;
-    
-
     this.setState({
       [event.target.name]:event.target.value
     })
@@ -39,18 +40,18 @@ error:{},
   handlesubmit=(e)=>{
     e.preventDefault();
     const user={
-STORE :this.state.STORE,                      
-STORE_NAME:this.state.STORE_NAME,             
-STORE_OPEN_DATE :this.state.STORE_OPEN_DATE,                  
+        STORE :this.state.STORE,                      
+        STORE_NAME:this.state.STORE_NAME,             
+        STORE_OPEN_DATE :this.state.STORE_OPEN_DATE,                  
 //STORE_CLOSE_DATE :this.state.STORE_CLOSE_DATE,                 
-PHONE_NUMBER :this.state.PHONE_NUMBER,            
-EMAIL :this.state.EMAIL,                  
-VAT_REGION :this.state.VAT_REGION,                       
-VAT_INCLUDE_IND  :'Y',               
-STOCKHOLDING_IND :'Y',       
-AUTO_RCV  :'Y',              
+        PHONE_NUMBER :this.state.PHONE_NUMBER,            
+        EMAIL :this.state.EMAIL,                  
+        VAT_REGION :this.state.VAT_REGION,                       
+        VAT_INCLUDE_IND  :'Y',               
+        STOCKHOLDING_IND :'Y',       
+        AUTO_RCV  :'Y',              
 //CREATE_DATETIME   :this.state.CREATE_DATETIME,      
-CREATE_USERNAME   :window.sessionStorage.getItem("name")  
+        CREATE_USERNAME   :window.sessionStorage.getItem("name")  
 
 
     }
@@ -103,39 +104,54 @@ CREATE_USERNAME   :window.sessionStorage.getItem("name")
         }
         this.setState({
           error:this.state.error
-      })
+        })
       
+        this.setState({
+          EMAIL:'',
+          PHONE_NUMBER:'',
+          VAT_REGION:''
+         
+
+         })
         
-        
-        }
+        };
        
-    
-    
-    
-    
-  render()
+render()
    {
     return (
-      <div class='store'>
-        <form onSubmit={this.handlesubmit}>
-          <div><center>Store Creation</center></div>
-          <hr/>
+      <div className='overallstore'>
+        <NavBar/>
+    
+        <div className='htmlsstore'></div>
+        <div id='contact-form-store'>
+       
+          <h2>Store Creation</h2>
+        <form id="form" className="formstore" onSubmit={this.handlesubmit}>
+       
+      
         <div >
-        <label>STORE</label>
+        <label for="store">
+          <span className="requiredstore">Store</span>
          <input type="number" name="STORE"  onChange={this.handleForm} required/> 
+         
+         </label>
         </div>
-        <br/>
+        
         <div>
-        <label>STORE_NAME</label>
+        <label for="storename">
+          <span className="requiredstore">Store Name</span>
          <input type="text" name="STORE_NAME"  onChange={this.handleForm} required/> 
+         </label>
         </div>
-        <br/>
+     
          <div>
           
-        <label>STORE_OPEN_DATE</label>
+        <label for="Storeopendate">
+          <span className="requiredstore">Open date</span>
          <input type="date" name="STORE_OPEN_DATE"  onChange={this.handleForm} required/> 
+         </label>
         </div>
-        <br/>
+       
         {/*<div>
         <label>STORE_CLOSE_DATE</label>
          <input type="date" name="STORE_CLOSE_DATE"  onChange={this.handleForm} /> 
@@ -143,22 +159,28 @@ CREATE_USERNAME   :window.sessionStorage.getItem("name")
         <div style={{fontSize:14,color:'red'}}>{this.state.error['ITEM']}</div>
         <br/> */}
         <div>
-        <label>PHONE NUMBER</label>
+        <label for="phonenumber">
+          <span className="requiredstore">Phone Number</span>
          <input type="text" id="PHONE_NUMBER" name="PHONE_NUMBER"  onChange={this.handleForm} onInput={this.phonecheck}/> 
          <div style={{fontSize:14,color:'red'}}>{this.state.error['PHONE_NUMBER']}</div>
+         </label>
         </div>
-        <br/>
+       
         <div>
-        <label>EMAIL</label>
+        <label for="email">
+          <span className="requiredstore">Email</span>
          <input type="text" name="EMAIL" id="EMAIL" onChange={this.handleForm} onInput={this.emailcheck}/> 
          <div style={{fontSize:14,color:'red'}}>{this.state.error['EMAIL']}</div>
+         </label>
         </div>
-        <br/>
+        
         <div>
-        <label>VAT REGION</label>
+        <label for="vatregion">
+          <span className="requiredstore">VAT Region</span>
          <input type="text" name="VAT_REGION"  onChange={this.handleForm} /> 
+         </label>
         </div>
-        <br/>
+       
         {/* <div>
         <label>VAT INCLUDE INDICATOR</label>
          <input type="text" name="VAT_INCLUDE_IND"  onChange={this.handleForm}/> 
@@ -176,19 +198,21 @@ CREATE_USERNAME   :window.sessionStorage.getItem("name")
          <input type="date" name="CREATE_DATETIME"  onChange={this.handleForm} required/> *
         </div> */}
         <div>
-        <label>CREATER_USRNAME</label>
-         <input type="text" name="CREATE_USERNAME" value={window.sessionStorage.getItem("name")} onChange={this.handleForm} required/> *
+        <label for="create username">
+           <span className="requiredstore">Username</span>
+         <input type="text" name="CREATE_USERNAME" value={window.sessionStorage.getItem("name")} onChange={this.handleForm} required/> 
+         </label>
         </div>
-        <br/>
+<div></div>
         <div className='submit'>
          <button type="submit">SUBMIT</button>
-         <Link className="btn-link" to='/home'>
-            BACK
-                        </Link>
-               
+        
          </div>
+       
         </form>
+        </div>
       </div>
+      // document.getElementsByClassName("list-group")
 
     )
   }

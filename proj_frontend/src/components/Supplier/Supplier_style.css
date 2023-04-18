@@ -4,13 +4,13 @@
    /* flex-wrap:unset; */
 }
 .htmls{
-    background:url(./img/pic2.jpg) no-repeat;
+    background:url(../Store/img/wallpaper.jpg) no-repeat;
     background-size: cover;
     
     height:520px;
-    width:850px;
+    width:1350px;
     /* width:70%; */
-    margin-bottom: 0px;
+    margin-top: 30px;
   
    
     /* background-color: #000; */
@@ -35,11 +35,11 @@
     /* background-color:rgba(231, 236, 220, 0.237); */
     background-color:rgba(59, 51, 51, 0.098);
     padding: 10px 20px 30px 20px;
-    max-width:120%;
+    max-width:100%;
     float: left;
-    left:85%;
+    left:49%;
     position: absolute;
-    margin-top:30px;
+    margin-top:125px;
     margin-left: -260px;
     border-radius:7px;
     -webkit-border-radius:7px;

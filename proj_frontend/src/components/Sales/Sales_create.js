@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Service from './Service';
-
+import NavBar from '../Nav.js'
+import './Salescreate.css'
 class Sales_create extends Component {
     constructor(props) {
       super(props)
@@ -13,6 +14,7 @@ class Sales_create extends Component {
       overall_price:0,
       ans_bool:false,
       error:{},
+      
 
          
       }
@@ -258,44 +260,52 @@ console.log("inside for",final_ans);
     }
   render() {
     return (
-        <div>
-      <div><center>Sales Creation</center></div>
-      <hr></hr>
-      <form onSubmit={this.handleSubmit}>
+        <div className='overallsales'>
+            <NavBar/>
+            <div className='htmlsales'></div>
+            <div id='contact-form-sales'>
+      <h2>Sales Creation</h2>
+   
+      <form id="form" className="formsales"onSubmit={this.handleSubmit}>
       <div>
-            <label>Invoice Number</label>
-            <input type="text" name='INVOICE_NO' onChange={this.handleForm} /> 
+            <label for="Invoice number">
+              <span className="requiredsales">Invoice Number</span>
+            <input type="text" name='INVOICE_NO' onChange={this.handleForm} />
+            </label> 
     </div>
     <div style={{fontSize:14,color:'red'}}>{this.state.error['INVOICE_NO']}</div> 
-    <br/>
+  
     <div>
-            <label>Invoice Date</label>
+            <label for="invoice date">
+              <span className="requiredsales">Invoice Date</span>
             <input type="date" name='INVOICE_DATE' onChange={this.handleForm} /> 
+            </label>
     </div>
     <div style={{fontSize:14,color:'red'}}>{this.state.error['INVOICE_DATE']}</div> 
-      
-    <br/>
+  
     <div>
-            <label>Store</label>
+            <label for="store">
+              <span className="requiredsales">Store</span>
           
             <select   name='STORE'  onInput={this.handleForm}onChange={this.itemget}> 
                 {this.state.store_values.map((store_values,i)=>
                {return   <option> {store_values.STORE} </option>})} 
                <option>Select</option>
                 </select>
+                </label>
     </div>
-    <div style={{fontSize:14,color:'red'}}>{this.state.error['STORE']}</div> 
-    <br/>
-    
+    <div style={{fontSize:14,color:'red'}}>{this.state.error['STORE']}</div>    
     <div>
-    <label>ITEM</label>
+    <label for="item">
+      <span className="requiredsales">ITEM</span>
               <div>
                  {
                 this.state.item_values.map((item,ind)=>
                   {
-                  
+                  console.log(item.ITEM)
                    return (
-                   <div key={ind}>
+                    
+                   <div key={item.ITEM} style={{"display":"flex"}}>
                     <input type="checkbox" id={item} name='ITEM'  onChange={this.handleForm} onClick={(e)=>{this.myfunc(e,ind)}}  />{item.ITEM} PRICE : {item.PRICE}
                    <input type="number" name='QUANTITY' id={ind}  onChange={this.handleForm} onKeyDown={(e)=>{this.saveQuantity(e,item,ind)}} style={{"display":"none"}}/> 
                   <input type="text" value={this.state.item_values[ind].total} ></input>
@@ -306,12 +316,14 @@ console.log("inside for",final_ans);
                   }
                 )} 
               </div>
+              </label>
     </div>
     <div style={{fontSize:14,color:'red'}}>{this.state.error['ITEM']}</div> 
     <div style={{fontSize:14,color:'red'}}>{this.state.error['QUANTITY']}</div> 
-    <br/>
+  
     <div>
-            <label>Sales Type</label>
+            <label for="salestype">
+              <span className="requiredsales">Sales Type</span>
             <select name= 'SALES_TYPE'onChange={this.handleForm}  > 
 
             
@@ -319,19 +331,22 @@ console.log("inside for",final_ans);
                 <option value="cash">Cash</option>
                 <option value="credit">Credit</option>
             </select> 
-
+            </label>
     </div>
-    <br/>
+   
     <div>
-      <label>overall_price</label>
+      <label for="overall price">
+        <span className="requiredsales">overall_price</span>
     <input type="text" name="INVENTORY_PRICE" value={this.state.overall_price}></input>
+    </label>
     </div>
-    <br/>
-
-   <button>submit</button>
-        {/* <input type="submit"></input> */}
-    
+  
+<div className='btn-link'>
+   <button  className="animation a5">submit</button>
+   </div>
+      
         </form>
+      </div>
       </div>
     )
   }

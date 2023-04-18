@@ -5,8 +5,17 @@ import axios from "axios";
     {
       console.log("sent value is",value);
       console.log(value.USERNAME);
+      
      
       const res=await axios.post("http://localhost:4000/newusercheck",value);
+     console.log(res.data);
+      return await res.data;
+    },
+    async otpgenerate(value)
+    {
+      console.log("sent value is",value.EMAIL);
+    
+      const res=await axios.post("http://localhost:4000/otpgenerate",value);
      console.log(res.data);
       return await res.data;
     },

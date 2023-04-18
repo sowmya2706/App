@@ -12,6 +12,7 @@ import './Login_style.css'
         this.state = {
             username:'',
             password:'',
+            email:'',
            
             data_value:[],
             hidden:true,
@@ -77,6 +78,7 @@ import './Login_style.css'
                   isSubmit=false;
                  this.setState({error:this.state.error})
                 }
+              
                 return isSubmit;
             }
             handlesubmit=(e)=>{
@@ -87,7 +89,8 @@ import './Login_style.css'
                    console.log(isValid);
                    const user={
                     username:this.state.username,
-                    password:this.state.password
+                    password:this.state.password,
+                    
                 }
                 Service.userexist(user).then (res=>{
                     
@@ -134,12 +137,13 @@ import './Login_style.css'
 
                 <input type={this.state.hidden?'password':'text'} class="form-field animation a3" id="pass"name="password" placeholder="Password"onChange={this.handleForm}/>
                 <div style={{fontSize:14,color:'red'}}>{this.state.error['password']}</div>
+                {/* <input type="text" class="form-field animation a3" name="email" placeholder="email"  onChange={this.handleForm}/> */}
                 <br/>
 
               Show password <input type="checkbox"  onClick={this.toggleShow}></input>
             
                <div className='submitButton'>
-                 <button class="animation a5" type="submit" > 
+                 <button className="animation a5" type="submit" > 
                SUBMIT
                 </button> 
                 {/* <OtpInput
@@ -152,7 +156,7 @@ import './Login_style.css'
                 <div>
                     <br/>
              <label>Create a New User</label>     
-
+            <br/>
                 <Link className='btn-Links' to='/newuser'>
                               Sign up
                       </Link>

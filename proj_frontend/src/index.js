@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+//import "bootstrap/dist/css/bootstrap.min.css";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -15,12 +16,14 @@ import PoCreate from './components/Po/PoCreate'
 import Po_receive from './components/Po/Po_receive'
 import Sales_create from './components/Sales/Sales_create'
 import Sales_view from './components/Sales/Sales_view'
+import Home1 from './components/Home1/Home1'
 //import Suma_form from './components/Suma_form'
 import Item_loc from './components/Store/Item_loc'
 import New_user from './components/User/New_user'
 import Inventory from './components/Inventory/Inventory'
 import {Routes,Route,  BrowserRouter as Router} from 'react-router-dom'
 import Po_details from './components/Po/Po_details';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
@@ -43,10 +46,12 @@ root.render(
     <Route path='/salesview' element={<Sales_view/>}/>
     <Route path='/itemloc' element={<Item_loc/>}/>
     <Route path='/inventory' element={<Inventory/>}/>
+    <Route path='/home1'element={<Home1/>}/>
   {/* <Route path="/insert" element={<Form/>}/> */}
 </Routes>
  
-  </Router>
+  </Router>,
+ 
   
 );
 

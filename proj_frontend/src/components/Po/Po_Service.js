@@ -2,7 +2,7 @@ import axios from "axios";
 
  const Service={
     async  upload(value) {
-        const ordercheck=await axios.get("http://localhost:4000/ordercheck?ORDER_NO="+value.ORDER_NO);
+       const ordercheck=await axios.get("http://localhost:4000/ordercheck?ORDER_NO="+value.ORDER_NO);
         console.log(ordercheck);
         console.log(ordercheck.data);
         if (ordercheck.data==0) {
@@ -11,9 +11,7 @@ import axios from "axios";
             return await res;
             console.log("response for po create upload",res);
         }
-        else{
-            alert("this order number is already presented");
-       } 
+        
     },
 
     // async  enterdetails(value) {
@@ -101,6 +99,14 @@ import axios from "axios";
     async getstore()
     {
         const res = await axios.get("http://localhost:4000/getstoreforpo");
+         //alert("succesfull");
+    
+         return await res;
+        
+    },
+    async getorder()
+    {
+        const res = await axios.get("http://localhost:4000/getorderno");
          //alert("succesfull");
     
          return await res;

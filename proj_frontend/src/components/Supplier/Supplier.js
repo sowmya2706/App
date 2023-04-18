@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 import './Supplier_style.css'
 import Service from '../Supplier/Service';
-import Dropdown from 'react-dropdown';
+
 import 'react-dropdown/style.css';
+import NavBar from  '../Nav.js';
 
 import { Link } from "react-router-dom";
- class Supplier extends Component {
+ class Supplier extends React.Component {
     constructor(props){
         super(props)
         this.state={
@@ -33,10 +33,51 @@ error:{},
 
 handleForm=(event)=>{
         console.log(event.target.value)
+        this.state.error[event.target.name]=" "
     this.setState({
         [event.target.name]:event.target.value
     })
+    if(event.target.name=="CONTACT_PHONE")
+    {
+    var num=document.getElementById("CONTACT_PHONE").value;
+    console.log("entered  phonenumber",num)
+    var phoneno = /^\d{10}$/;
+
+    if(num.length!=10)
+    {
+        this.state.error[event.target.name]="Phone number is wrong"
+         console.log(this.state.error)
+    }
+    else{
+        this.state.error[event.target.name]="";
+    }
+    this.setState({
+        error:this.state.error
+    })
 }
+}
+validation=(user)=>{
+    //console.log("val",user.ITEM)
+    console.log(user)
+     let errormsg=this.state.error
+    let re=true;
+    console.log("writing user")
+    Object.keys(user).forEach((key , index) => {
+      console.log("keyyy",user[key])
+    // console.log("quantity",user[key][index].quantity)
+      console.log("key",key)
+      if(user[key] === ""|| user[key]===undefined || user[key].length==0){
+        errormsg[key]="Enter correct information";
+        
+        re=false;
+      }
+    })
+
+    this.setState({
+      error:errormsg
+    })
+    return re;
+  }
 phonecheck=(event)=>{
     var num=document.getElementById("CONTACT_PHONE").value;
     console.log("entered  phonenumber",num)
@@ -81,11 +122,38 @@ handlesubmit=(e)=>{
         
        
     }
+    const val={
+        SUPPLIER :this.state.SUPPLIER,
+        SUP_NAME :this.state.SUP_NAME  ,
+        CONTACT_NAME:this.state.CONTACT_NAME,
+        CONTACT_PHONE:this.state.CONTACT_PHONE,
+
+        PAYMENT_METHOD:this.state.PAYMENT_METHOD  ,
+       
+        VAT_REGION:this.state.VAT_REGION  ,
+
+       
+    }
     console.log(user);
+    let uplovali=this.validation(val)
+        console.log("value for uplovali",uplovali)
+           if(uplovali==true)
+           {
     Service.upload(user).then (res=>{
         console.log(res)
         if(res!=undefined)
         {
+            this.setState({
+            SUPPLIER :'',
+        SUP_NAME :'' ,
+        CONTACT_NAME:'',
+        CONTACT_PHONE:'',
+
+        PAYMENT_METHOD:'' ,
+       
+        VAT_REGION:'',
+        COMMENTS:''
+            })
           document.getElementById("form").reset();
         //   document.getElementById("order_no").value="";
         //   document.getElementById("store").value="";
@@ -94,11 +162,13 @@ handlesubmit=(e)=>{
         
     })
   
-  };
+}
+      }
  
 render() {
     return (
         <div className='overall'>
+      <NavBar/>
       <div className='htmls'> </div>
         <div id='contact-form'>
             <h2>Supplier Creation</h2>
@@ -107,50 +177,34 @@ render() {
          <div>
          <label for="Supplier">
             <span className="required">Supplier </span>
-            <input type="text" id='supplier' name="SUPPLIER" placeholder='Supplier id' onChange={this.handleForm} required/> 
+            <input type="text" id='supplier' name="SUPPLIER" placeholder='Supplier id' onChange={this.handleForm} /> 
          </label>
-
+         <div style={{fontSize:14,color:'red'}}>{this.state.error['SUPPLIER']}</div>
          </div>
          <div>
          <label for="name">
             <span className="required">Supplier Name</span>
-            <input type="text" id='supplier_name'name="SUP_NAME" placeholder='Supplier name'onChange={this.handleForm} required/> </label>
-         
+            <input type="text" id='supplier_name'name="SUP_NAME" placeholder='Supplier name'onChange={this.handleForm}/> </label>
+            <div style={{fontSize:14,color:'red'}}>{this.state.error['SUP_NAME']}</div>
          </div>
          <div>
          <label for="contact">
             
             <span className="required">Contact</span> 
-            <input type="textarea" id='conatct_name'name="CONTACT_NAME" placeholder='Name and address'onChange={this.handleForm} required/> </label>
-        
+            <input type="textarea" id='conatct_name'name="CONTACT_NAME" placeholder='Name and address'onChange={this.handleForm} /> </label>
+            <div style={{fontSize:14,color:'red'}}>{this.state.error['CONTACT_NAME']}</div>
          </div>
          
          <div>
          <label for="phone"> 
          <span className='required'>Phone</span>
          
-         <input type="text" id="CONTACT_PHONE"name="CONTACT_PHONE" placeholder='Phone number'onChange={this.handleForm} onInput={this.phonecheck} required/> 
+         <input type="text" id="CONTACT_PHONE"name="CONTACT_PHONE" placeholder='Phone number'onChange={this.handleForm} onInput={this.phonecheck} /> 
          <div style={{fontSize:14,color:'red'}}>{this.state.error['CONTACT_PHONE']}</div>
          </label>
+   
          </div>
-         {/* <div>
-         <label>SUP_STATUS</label>
-         <input type="text" name="SUP_STATUS" onChange={this.handleForm}/>
-         </div>
-         */}
-         {/* <div>
-         <label>FREIGHT_TERMS </label>
-         <input type="text" name="FREIGHT_TERMS" onChange={this.handleForm}/>
-         </div>
-         */}
-         {/* <div>
-         <label> HANDLING_PCT</label>
-         <input type="number" name="HANDLING_PCT" onChange={this.handleForm}/>
-         </div> */}
-         {/* <div>
-         <label> SHIP_METHOD  </label>
-         <input type="text" name="SHIP_METHOD" onChange={this.handleForm}/>
-         </div> */}
+        
          <div>
 
   
@@ -159,38 +213,29 @@ render() {
             <select id='payment' name= "PAYMENT_METHOD"onChange={this.handleForm}  > 
 
             
-
+            <option value="select">Select</option>
                 <option value="cash">Cash</option>
                 <option value="card">Card</option>
                 <option value="upi">Upi/netbanking</option>
                 <option value="bank">Bank</option>
+
             </select> 
-         {/* <input type="text" name="PAYMENT_METHOD" placeholder='card cash'onChange={this.handleForm} required/>  */}
-         {/* <Dropdown options={options} onChange={this._onSelect}  placeholder="Select an option" />; */}
+            
+            <div style={{fontSize:14,color:'red'}}>{this.state.error['PAYMENT_METHOD']}</div>
+        
          </label>
          </div>
-         {/* <div>
-         <label>FREIGHT_CHARGE_IND </label>
-         <input type="text" name="FREIGHT_CHARGE_IND" onChange={this.handleForm}/>
-         </div> */}
-         {/* <div>
-         <label>PREPAY_INVC_IND </label>
-         <input type="text" name="PREPAY_INVC_IND" onChange={this.handleForm}/>
-         </div> */}
-         {/* <div>
-         <label>BACKORDER_IND</label>
-         <input type="TEXT" name="BACKORDER_IND" onChange={this.handleForm}/>
-         </div> */}
+
          <div>
          <label for="Vat Region">
             <span className="required">Vat Region</span>
        
-         <input type="text" id='vat'name="VAT_REGION" placeholder='TN'onChange={this.handleForm} required/> 
+         <input type="text" id='vat'name="VAT_REGION" placeholder='TN'onChange={this.handleForm} /> 
          </label>
          </div>
          <div>
          <label for="comments">
-            <span className="Comments">Comments</span> 
+            <span className="required">Comments</span> 
          <input type="text" id='comment'name="COMMENT_DESC" placeholder='' onChange={this.handleForm}/>
          </label>
          </div>
@@ -199,10 +244,7 @@ render() {
          <div className='submit'>
          <button type="submit">SUBMIT</button>
         
-            <Link className="btn-link" to='/home'>
-            BACK
-                        </Link>
-               
+           
            
          </div>
          </form>

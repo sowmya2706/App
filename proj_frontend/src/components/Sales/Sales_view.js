@@ -1,30 +1,52 @@
 import React, { Component } from 'react'
 import Service from './Service'
+import './Salestable.css'
+// import ReactPaginate from 'react-paginate';  
+
+import Pagination from "react-js-pagination";
+import NavBar from '../Nav.js'
 class Sales_view extends Component {
     constructor(props) {
       super(props)
     
       this.state = {
         data_value:[],
+        currentpage:0,
+        pagesize:5,
       } 
     }
     componentDidMount(){
         Service.salesdetails_view().then(res=>{
             console.log("calling this func")
           this.setState({data_value:res.data})
+          console.log(this.state.data_value)
          })
+      }
+      handlePageChange(e){
+        // e.preventDefault()
+        let suma=e-1;
+        console.log(e)
+     this.setState({
+      currentpage:suma
+     })
+     console.log(this.state.currentpage)
       }
  
   render() {
     return (
         <div>
-            
-      <div ><center>Sales View</center></div>
-      <hr/>
+           <NavBar/> 
+           <br/>
+           <br/>
+           <div>
+            <br/>
+           </div>
+      <div ><h2 class="title"><center>Sales View</center></h2></div>
+   
       {console.log("result from backend is",this.state.data_value)}
-      <div>
-        <table width="100%" border="1">
-              <thead>
+      <div className="cen">
+        <table >
+              <thead style={{color:'blue'}}>
                   <th>Invoice Number</th>
                   {/* <th>Invoice Date</th> */}
                   <th>Store</th>
@@ -33,7 +55,7 @@ class Sales_view extends Component {
                   </thead>
                   <tbody>  
                  {this.state.data_value.map(value =>{
-                    return value.map(a=>{
+                    return value.slice(this.state.currentpage*this.state.pagesize,(this.state.currentpage+1)*this.state.pagesize).map(a=>{
     
                      return (<tr>
                         <td>{a.INVOICE_NO}</td>
@@ -45,9 +67,18 @@ class Sales_view extends Component {
                     })
                    })
                   }
+                                  
                                 </tbody>
+                                {/* <ReactPaginate count={11} defaultPage={6} siblingCount={0} /> */}
                           </table>
                       </div>
+                      <Pagination 
+          activePage={this.state.currentpage+1}
+          itemsCountPerPage={5}
+          totalItemsCount={this.state.data_value[0]==undefined?0:this.state.data_value[0].length}
+          pageRangeDisplayed={5}
+          onChange={this.handlePageChange.bind(this)}
+        />
                   
 
       </div>

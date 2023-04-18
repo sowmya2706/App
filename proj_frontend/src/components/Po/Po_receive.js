@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Service from './Po_Service';
+import './Po_style.css';
+import NavBar from '../Nav.js'
 import { Link } from 'react-router-dom';
  class Po_receive extends Component {
     constructor(props) {
@@ -171,57 +173,71 @@ import { Link } from 'react-router-dom';
       }
   render() {
     return (
-      <div>
-       <form onSubmit={this.handlesubmit}>
+      <div className='overallpo'>
+        <NavBar/>
+        <div className='htmlpo'></div>
+        <div id='contact-form-po'>
+            <h2>PO Receive</h2>
+       <form id="form" className="formpo"onSubmit={this.handlesubmit}>
         <div>
-            <label>PO RECEIVE DATE</label>
-            <input type="date" name="PO_RECEIVE_DATE" onChange={this.handleForm}/>*
+          <div>
+            <label for="date">
+                <span className='requiredpo'>PO ReceiveDate</span>
+            <input type="date" name="PO_RECEIVE_DATE" onChange={this.handleForm}/>
+       </label>
         </div>
         <div style={{fontSize:14,color:'red'}}>{this.state.error['PO_RECEIVE_DATE']}</div> 
-        <br/>
+
         <div>
-            <label>PO NUMBER</label>
-            <select name='PO_NUMBER' onInput={this.itemget}  onChange={this.handleForm}required>*
+            <label for="ponumber">
+                <span className="requiredpo">PO Number</span>
+            <select name='PO_NUMBER' onInput={this.itemget}  onChange={this.handleForm}required>
              {this.state.po_number.map((po_number,i)=>
                {return<option> {po_number.ORDER_NO} </option>})} 
                <option>Select</option> 
                 </select>
+                </label>
                 <div style={{fontSize:14,color:'red'}}>{this.state.error['PO_NUMBER']}</div> 
         </div>
-       <br/>
+      
         <div>
-            <label>Store</label>
+            <label for="store">
+                <span className="requiredpo">Store</span>
             <input type="text" name="STORE"  onChange={this.handleForm} value={this.state.item_values[0].STORE}></input>
+            </label>
         </div>
       <div style={{fontSize:14,color:'red'}}>{this.state.error['STORE']}</div> 
-      <br/>
+     
         <div>
-            <label>ITEM</label>
+            <label for="item">
+                <span className="requiredpo">ITEM</span>
             <div>
                 {
                     this.state.item_values.map((item,ind)=>{
                         return(
-                            <div key={ind}>
+                            <div key={ind} style={{"display":"flex"}}>
                                 <input type="checkbox" id={item} name='ITEM' onChange={this.handleForm} onClick={(e)=>{this.myfunc(e,ind)}}/>{item.ITEM}
-                                <div><label>Received Quantity</label></div>
-                                <input type="number" name='RECEIVED_QUANTY' id={ind} onChange={this.handleForm} onKeyDown={(e)=>{this.saveReceived_Quanty(e,item)}} style={{"display":"none"}}/>
+                           
+                                <input type="number" placeholder='Received quantity'name='RECEIVED_QUANTY' id={ind} onChange={this.handleForm} onKeyDown={(e)=>{this.saveReceived_Quanty(e,item)}} style={{"display":"none"}}/>
                                 </div>
                         )
                     })
                 }
             </div>
+            </label>
             <div style={{fontSize:14,color:'red'}}>{this.state.error['ITEM']}</div> 
             <div style={{fontSize:14,color:'red'}}>{this.state.error['RECEIVED_QUANTY']}</div> 
         </div>
-        <br/>
-        <div>
+       
+        <div className='submitButton'>
         <button>Submit</button>
-        <Link className="btn-link" to='/home'>
-            BACK
-                        </Link>
+
         </div>
+          </div>
        </form>
       </div>
+      </div>
+    
     )
   }
 }

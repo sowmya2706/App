@@ -1,0 +1,226 @@
+.overallitemloc{
+    display: flex;
+    /* grid-template-columns: 1fr 1fr; */
+    /* flex-wrap:unset; */
+ }
+ .htmlsitemloc{
+      background:url(./img/wallpaper.jpg) no-repeat; 
+     background-size: cover;
+     
+     height:520px;
+     width:1350px;
+     /* width:70%; */
+     margin-top: 30px;
+   
+    
+     background-color:whitesmoke;
+  }
+  * {
+     box-sizing:border-box;
+     -webkit-box-sizing:border-box;
+     -moz-box-sizing:border-box;
+     -webkit-font-smoothing:antialiased;
+     -moz-font-smoothing:antialiased;
+     -o-font-smoothing:antialiased;
+     /* font-smoothing:antialiased; */
+     text-rendering:optimizeLegibility;
+  }
+  
+  .h1 {
+     margin: 10px 0px 0 0;
+    align-items: center;
+  }
+ 
+  #contact-form-itemloc {
+     /* background-color:rgba(231, 236, 220, 0.237); */
+     background-color:rgba(59, 51, 51, 0.098);
+     /* background-color:rgba(96, 92, 92, 0); */
+     padding: 10px 20px 30px 20px;
+     max-width:670%;
+     float: left;
+     left:29%;
+     position: absolute;
+     margin-top:155px;
+     margin-left: -260px;
+     border-radius:7px;
+     -webkit-border-radius:7px;
+     -moz-border-radius:7px;
+      /* height:100%;
+      display:flex; */
+      /* flex-direction: column;
+      align-items: center; */
+     /* overflow:scroll; */
+      /* display: grid;  */
+     /* grid-template-columns: 1fr 1fr ;  */
+ 
+  }
+  #contact-form-itemloc input,   
+  #contact-form-itemloc select,   
+  #contact-form-itemloc textarea,   
+  #contact-form-itemloc label { 
+     font-size: 15px;  
+     margin-bottom: 2px;
+     font-family: Arial, san-serif;                                                                                                                                                                                                                                                                                                                                                   
+  } 
+  #contact-form-itemloc input,   
+  #contact-form-itemloc select,   
+  #contact-form-itemloc textarea { 
+     width:80%;
+     background: #fff;
+     border: 0; 
+     -moz-border-radius: 4px;  
+     -webkit-border-radius: 4px;  
+      border-radius: 4px;
+     margin-bottom: 25px;  
+     padding: 5px;  
+  }  
+  #contact-form-itemloc input:focus,   
+  #contact-form-itemloc select:focus,   
+  #contact-form-itemloc textarea:focus {  
+     background-color: #E5E6E7; 
+  }  
+  /* #contact-form textarea {
+     width:90%;
+     height: 100px;
+     /* flex:wrap; */
+  
+  #contact-form-itemloc button[type="submit"] {
+     cursor:pointer;
+     width:100%;
+     border:none;
+     background:#667a3681;
+     background-image:linear-gradient(bottom, #8C1C50 0%, #991D57 52%);
+     background-image:-moz-linear-gradient(bottom, #8C1C50 0%, #991D57 52%);
+     background-image:-webkit-linear-gradient(bottom, #8C1C50 0%, #991D57 52%);
+     color:#FFF;
+     margin:0 0 5px;
+     padding:5px;
+     border-radius:5px;
+     letter-spacing: 1px;
+  }
+  #contact-form-itemloc button[type="submit"]:hover {
+     background-image:linear-gradient(bottom, #9C215A 0%, #A82767 52%);
+     background-image:-moz-linear-gradient(bottom, #9C215A 0%, #A82767 52%);
+     background-image:-webkit-linear-gradient(bottom, #9C215A 0%, #A82767 52%);
+     -webkit-transition:background 0.3s ease-in-out;
+     -moz-transition:background 0.3s ease-in-out;
+     transition:background-color 0.3s ease-in-out;
+  }
+  #contact-form-itemloc button[type="submit"]:active {
+     box-shadow:inset 0 1px 3px rgba(0,0,0,0.5);
+  }
+  input:required, textarea:required {  
+     box-shadow: none;
+     -moz-box-shadow: none;  
+     -webkit-box-shadow: none;  
+     -o-box-shadow: none;  
+  } 
+  #contact-form-itemloc .required {  
+     font-weight:bold;  
+     color: #2f3235; 
+     /* height:100%;
+     overflow:scroll;
+     flex:wrap; */
+            
+  }
+  
+  
+  /* Make form look nice on smaller screens */
+  @media only screen and (max-width: 580px) {
+     #contact-form-store{
+        left: 3%;
+        margin-right: 3%;
+        width: 88%;
+        margin-left: 0;
+        padding-left: 3%;
+        padding-right: 3%;
+        height:100%;
+        overflow:scroll;
+     }
+  }
+   .formitemloc{
+     display: grid;
+    grid-template-columns: 1fr 1fr 1fr ; 
+     column-gap: 20px; 
+    width: 100%;
+   
+ 
+  }  
+  .submits{
+    
+    background-color: #8C1C50 ;
+    padding:4px;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    cursor:pointer;
+        /* width:50%; */
+        border:none;
+        background:#80964b81;
+        background-image:linear-gradient(bottom, hsl(332, 67%, 33%) 0%, #991D57 52%);
+        background-image:-moz-linear-gradient(bottom, #8C1C50 0%, #991D57 52%);
+        background-image:-webkit-linear-gradient(bottom, #8C1C50 0%, #991D57 52%);
+        margin:0 0 5px;
+        font-size: 14px;  
+       
+        font-family: Arial;  
+        letter-spacing: 1;
+     }  
+     .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .alignleft{
+      float:left;
+      left:19%;
+    }
+    .alignright{
+      float:right;
+      right:45%;
+
+    }
+     /* .dropbtn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .dropdown-content {
+      top: 0;
+right: calc( 100% + 5px );
+       display: none;
+      position: absolute;
+    
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 10; 
+    }
+    
+    .dropdown-content  {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      height: 100%;
+      overflow:scroll;
+    }
+    
+    .dropdown-content  {
+      background-color: #f1f1f1
+    }
+    
+    .dropdown:hover .dropdown-content {
+      display: flex;
+    }
+    
+    .dropdown:hover .dropbtn {
+      background-color: #3e8e41;
+    } */

@@ -3,6 +3,11 @@ import { Navigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Service from './Po_Service';
 import Select from 'react-select';
+import Modal from 'react-bootstrap/Modal';
+import NavBar from '../Nav.js'
+import './Po_style.css'
+import { ModalFooter } from 'react-bootstrap';
+
 //import image from "./pic1.jpg";
  class PoCreate extends Component {
     constructor(props) {
@@ -19,6 +24,8 @@ import Select from 'react-select';
         val_po:[],
         selectedvalue:'',
         errormsg:'',
+        ORDER_NO:'',
+        modal:false,
       
         
         //WRITTEN_DATE:new Date().toLocaleString()
@@ -86,7 +93,7 @@ CREATE_USERID:window.sessionStorage.getItem("name") ,
 item_qnty:this.state.item_qnty,
 ITEM:this.state.order_values,                
         }
-        
+        console.log("order number is",this.state.ORDER_NO)
         const val={
           ORDER_NO:this.state.ORDER_NO,
           ITEM:this.state.order_values, 
@@ -114,8 +121,9 @@ ITEM:this.state.order_values,
               document.getElementById("supplier").value="";
             }
             else{
-              document.getElementById("form").reset();
               document.getElementById("order_no").value="";
+              document.getElementById("form").reset();
+             
               document.getElementById("store").value="";
               document.getElementById("supplier").value="";
             }
@@ -124,10 +132,11 @@ ITEM:this.state.order_values,
 
         })
       }
+      
     
       }
     
-     
+    
     componentDidMount(){
         Service.getsupplier().then(res=>{
             console.log(res.data);
@@ -140,11 +149,20 @@ ITEM:this.state.order_values,
           this.setState({store_values:res.data})
         
          })
+         Service.getorder().then(res=>{
+          console.log("ycuuuu ",res.data[0].NEXTVAL);
+        this.setState({ORDER_NO:res.data[0].NEXTVAL})
+         })
          
        
 
       }
- 
+      toggle(){
+        console.log("Toggling")
+        this.setState({
+          modal:!(this.state.modal),
+        })
+      }
       itemget=(e)=>{
         console.log("store is",this.state.STORE)
         var storepo=this.state.STORE;
@@ -154,14 +172,11 @@ ITEM:this.state.order_values,
         console.log("printtt")
        console.log(e.target.value);
        this.setState({
-       
+          modal:!(this.state.modal),
           [e.target.name]:e.target.value
       })
-      if(document.getElementById("itemcheckbox_iswrapper").children[0].children[0]!=undefined)
-      {
-      console.log("dfwgeherg",)
-      document.getElementById("itemcheckbox_iswrapper").children[0].children[0].setAttribute('checked','false')
-      }
+     
+
       
        Service.getitem(supplierpo,storepo).then(res=>{
         console.log("itemget response",res);
@@ -173,7 +188,14 @@ ITEM:this.state.order_values,
        
         })
         //e.target.checked=false;
+        if(document.getElementById("itemcheckbox_iswrapper").children[0].children[0]!=undefined)
+        {
+        console.log("dfwgeherg",document.getElementById("itemcheckbox_iswrapper").children[0].children[0])
+        document.getElementById("itemcheckbox_iswrapper").children[0].children[0].removeAttribute('checked')
+      
+        }
       }
+     
       myfunc=(e,id)=>{
 
        if(e.target.checked){
@@ -227,24 +249,29 @@ ITEM:this.state.order_values,
   render() {
        
     return (
-      <div>
-        <div>
+  
+      <div className='overallpo'>
+        <NavBar/>
+        <div className='htmlpo'></div>
 
-     
-        <form  id="form" onSubmit={this.handleSubmit} >
-          <div><center>PO Creation</center></div>
-
-          <hr></hr>
+     <div id='contact-form-po'>
+      <h2>PO Creation</h2>
+        <form id="form" className="formpo"onSubmit={this.handleSubmit} >
+          <div>
             <div>
-            <label>Order number</label>
-            <input type="number" id='order_no'name='ORDER_NO' onChange={this.handleForm} value={this.state.ORDER_NO}/> *
+            <label for ="orderno">
+              <span className="requiredpo">Order number</span>
+            
+            <input type="number" id='order_no'name='ORDER_NO' onChange={this.handleForm} value={this.state.ORDER_NO}/> 
+            </label>
             </div>
             <div style={{fontSize:14,color:'red'}}>{this.state.error['ORDER_NO']}</div> 
-            <br/>
+          
             <div>
-            <label>Store</label>
+            <label for="store">
+              <span className="requiredpo">Store</span>
 
-               <select name='STORE' id='store' onChange={this.handleForm} required> 
+               <select name='STORE' id='store' onChange={this.handleForm} > 
  
                 {this.state.store_values.map((store_values,i)=>
 
@@ -253,13 +280,14 @@ ITEM:this.state.order_values,
                               
                 </select>
                 
-           
+                </label>
             </div>
             <div style={{fontSize:14,color:'red'}}>{this.state.error['STORE']}</div> 
-            <br/>
+     
 
             <div>
-             <label>Supplier</label>
+             <label for="supplier">
+              <span className="requiredpo">Supplier</span>
 
                <select name='SUPPLIER' id='supplier' onChange={this.itemget} onInput={this.handleForm} > 
                 {this.state.supplier_values.map((supplier_values,i)=>
@@ -268,78 +296,86 @@ ITEM:this.state.order_values,
                                
                 </select>
 
-            
+                </label>
             </div>
             <div style={{fontSize:14,color:'red'}}>{this.state.error['SUPPLIER']}</div> 
-            <br/>
-          
+    
             <div>
-              <label>ITEM</label>
-              <div id="itemcheckbox_iswrapper">
-                 {
-                               
-                 
-                this.state.item_values.map((item,ind)=>
-                  {
-                    
-                   return (
-                   <div key={ind}>
-                  
-                    <input type="checkbox" id={item} name='ITEM'   onChange={this.handleForm} onClick={(e)=>{this.myfunc(e,ind)}}/>{item.ITEM}
-                    
-                  <div>  <label>Ordered Quantity</label> </div><input type="number" name='ORDERED_QUANTY' id={ind}  onChange={this.handleForm} onKeyDown={(e)=>{this.saveQuantity(e,item)}} style={{"display":"none"}} />
-                  {/* <div>  <label>Ordered Quantity</label> </div><input type="number" name='ORDERED_QUANTY' id={ind}  onChange={this.handleForm} onInput={(e)=>{this.saveQuantity(e,item)}} style={{"display":"none"}} /> */}
-                  </div>
-                 
-                  //onKeyDown={(e)=>{this.saveQuantity(e)}}
-                  )
-                    
-                  }
-
-                )} 
-                 <div style={{fontSize:14,color:'red'}}>{this.state.error['ITEM']}</div> 
-                 <div style={{fontSize:14,color:'red'}}>{this.state.error['ORDERED_QUANTY']}</div> 
-
-              </div>
-
-            
-  </div>
-  <br/>
-
-        
-            <div>
-            <label>Terms</label>
-            <input type="text" name="TERMS"  onChange={this.handleForm} /> *
+            <label for="terms">
+              <span className="requiredpo">Terms</span>
+            <input type="text" name="TERMS"  onChange={this.handleForm} /> 
+            </label>
             </div>
             <div style={{fontSize:14,color:'red'}}>{this.state.error['TERMS']}</div> 
-            <br/>
+   
             <div>
-            <label>Freight Terms</label>
+            <label for="fsv">
+              <span className="requiredpo">Freight Terms</span>
             <input type="text" name="FREIGHT_TERMS"  onChange={this.handleForm} /> 
+            </label>
             </div>
-            <br/>
+         
           
             <div>
-            <label>Create UserID</label>
+            <label for="id">
+              <span className="requiredpo">Create UserID</span>
             <input type="text" name="CREATE_USERID" value={window.sessionStorage.getItem("name")} onChange={this.handleForm} /> 
+            </label>
             </div>
-            <br/>
+       
             <div>
-            <label>Comments</label>
+            <label for="comments">
+              <span className="requiredpo">Comments</span>
             <input type="text" name="COMMENTS"  onChange={this.handleForm} /> 
+            </label>
             </div>
-            <br/>
-            <div className='submit'>
-         <button type="submit" onClick={this.reset}>SUBMIT</button>
-         <Link className="btn-link" to='/home'>
-            BACK
-                        </Link>
-               
-         </div>
-           
+            <div className='submitButton'>
+                <button type="submit" onClick={this.reset}>SUBMIT</button>
+              
+              </div>
+
+        </div>
+      
+        
         </form>
         </div>
+        <Modal show={this.state.modal} onHide={this.toggle.bind(this)}>
+      <Modal.Header>ITEMS : <span className="closeBtn" onClick={this.toggle.bind(this)}>x</span></Modal.Header>
+      <Modal.Body>
+      <div id="checkbox_renderer"> 
+     
+        <div id="itemcheckbox_iswrapper">
+          {                
+          this.state.item_values.map((item,ind)=>
+            {
+
+             return (
+             <div key={item.ITEM} id="check_wrap">
+                <input type="checkbox" id={item} className="item_checkbox" name='ITEM'   onChange={this.handleForm} onClick={(e)=>{this.myfunc(e,ind)}}/>
+                <div id="checkbox_text">{item.ITEM}</div>
+                <input type="number" name='ORDERED_QUANTY' className="item_qty_tf" id={ind} placeholder='ordered quantity' onChange={this.handleForm} onKeyDown={(e)=>{this.saveQuantity(e,item)}} style={{"display":"none"}} />
+            </div>
+           
+            )
+              
+            })
+          }
+          <div style={{fontSize:14,color:'red'}}>{this.state.error['ITEM']}</div> 
+          <div style={{fontSize:14,color:'red'}}>{this.state.error['ORDERED_QUANTY']}</div> 
+
+        </div>
+       
       </div>
+      </Modal.Body>
+      <Modal.Footer>
+      <div>
+          <button type="submit">Submit</button>
+        </div>
+      </Modal.Footer>
+     </Modal>
+      </div>
+
+      
     )
   }
 }

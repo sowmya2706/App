@@ -36,5 +36,11 @@ import axios from "axios";
         console.log("get completed succ",await(res));
         return await res;
     },
+    async getsupplier()
+    {
+        const res = axios.get("http://localhost:4000/getsupplierforitem")
+       // console.log("get completed succ",await(res));
+        return await res;
+    },
 }
 export default  Service;
