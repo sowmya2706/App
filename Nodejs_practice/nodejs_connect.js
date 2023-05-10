@@ -1,5 +1,6 @@
 var express=require('express');
 const oracledb = require("oracledb");
+const nodemailer = require('nodemailer');
 var app=express()
 var bodyparser=require('body-parser');
 var cor=require('cors');
@@ -10,6 +11,9 @@ var po= require('./PO_Method');
 var sal=require('./sales');
 var user=require('./Login');
 var inv=require('./inventory');
+var dept=require('./department');
+var clas=require('./clas');
+var subclass=require('./subclass');
 app.use(express.json());
 app.use(cor());
 app.use(bodyparser.json());
@@ -47,6 +51,33 @@ app.get('/getsupplierforitem',async (req,res)=>{
       
 
 })
+app.get('/getdeptforitem',async (req,res)=>{
+  
+
+    console.log('get dept for item');
+     dbData.getdeptforitem().then(row =>{
+        console.log("Data supplierforitem: ",row);
+        res.json(row)
+        
+    })
+    
+      
+
+})
+app.get('/getclassforitem',async(req,res)=>{
+    console.log("backend check",req.query)
+     await dbData.getclassforitem(req.query).then(row=>{
+         console.log(row);
+         res.json(row);
+     })
+ })
+ app.get('/getsubclassforitem',async(req,res)=>{
+    console.log("backend check for subclass",req.query)
+     await dbData.getsubclassforitem(req.query).then(row=>{
+         console.log(row);
+         res.json(row);
+     })
+ })
 //inserted piece of code
 app.get('/getval',async(req,res)=>{
     console.log('checking for the value',req.query);
@@ -107,7 +138,7 @@ app.post('/postStore',(req,res)=>{
    app.get('/getStore',async (req,res)=>{
      //oracledb.initOracleClient();
      console.log('get');
-     await sto.get().then(row =>{
+     await sto.getstore().then(row =>{
          console.log("Data : ",[row]);
          res.json([row])
      })
@@ -116,8 +147,8 @@ app.post('/postStore',(req,res)=>{
  })
  app.post('/uploaditemloc',(req,res)=>{
     // oracledb.initOracleClient();
+    console.log('request body for spacing:  ',req.body);
      sto.uploaditemloc(req.body)
-       console.log('request body:  ',req.body);
        res.send(req.body)
        
    })
@@ -156,12 +187,12 @@ app.get('/getsupplierforpo',async(req,res)=>{
     })
 })
 app.get('/getitemforpo',async(req,res)=>{
-   console.log("backend check",req.query)
-    await po.getitemforpo(req.query).then(row=>{
-        console.log(row);
-        res.json(row);
-    })
-})
+    console.log("backend check",req.query)
+     await po.getitemforpo(req.query).then(row=>{
+         console.log(row);
+         res.json(row);
+     })
+ })
 app.get('/getorderno',async(req,res)=>{
     
      await po.getorderno().then(row=>{
@@ -192,9 +223,9 @@ app.get('/getitemforporeceive',async(req,res)=>{
          res.json(row);
      })
  })
-app.get('/getstoreforpo',async(req,res)=>{
+app.get('/getstoreforpo',(req,res)=>{
     console.log('Enter');
-    await po.getstoreforpo().then(row=>{
+     po.getstoreforpo().then(row=>{
         console.log(row);
         res.json(row);
     })
@@ -213,7 +244,8 @@ app.post('/postpocreate',(req,res)=>{
     await po.getdetails().then(row=>{
 
         console.log(row);
-        res.json(row);
+        
+        res.json([row]);
        
     })
  })
@@ -246,6 +278,16 @@ app.post('/newusercheck',async(req,res)=>{
   
     console.log('request body :',req.body);
       user.usernamecheck(req.body).then(row=>{
+        console.log('response',row);
+        res.send(row)
+      })
+       
+       
+})
+app.post('/otpgenerate',async(req,res)=>{
+  
+    console.log('request body :',req.body);
+      user.otpgenerate(req.body).then(row=>{
         console.log('response',row);
         res.send(row)
       })
@@ -314,18 +356,125 @@ app.get('/getstoreforsales',async(req,res)=>{
         res.json(row);
     })
 })
+/////Department////////
+app.post('/deptcreate',async(req,res)=>{
+    console.log("backend check inventory",req.body)
+    dept.deptcreate(req.body).then(row=>{
+        
+       res.send(row)
+     })
+   
+})
+app.get('/getdeptno',async(req,res)=>{
+    console.log('checking for the value',req.query);
+    console.log("dsd",req.query.deptno); 
+    await dept.getcheckdeptno(req.query.deptno).then(row=>{
+        // console.log(res.json([row]));
+        console.log(row);
+         res.json(row);
+})
+})
+app.get('/getdeptview',async (req,res)=>{
+  
+
+    console.log('department view');
+    await dept.getdeptview().then(row =>{
+        console.log("Data : ",[row]);
+        res.json([row])
+        
+    })
+    
+      
+
+})
+///////////class//////////
+app.get('/getdeptforclass',async(req,res)=>{
+    console.log('Enter');
+    await clas.getdeptforclass().then(row=>{
+        console.log(row);
+        res.json(row);
+    })
+})
+app.get('/getclassno',async(req,res)=>{
+    console.log('checking for the value',req.query);
+    console.log("dsd",req.query.classno); 
+    await clas.getcheckclassno(req.query.classno).then(row=>{
+        // console.log(res.json([row]));
+        console.log(row);
+         res.json(row);
+})
+})
+app.post('/classcreate',async(req,res)=>{
+    console.log("backend check inventory",req.body)
+    clas.classcreate(req.body).then(row=>{
+        
+       res.send(row)
+     })
+   
+})
+app.get('/getclassview',async (req,res)=>{
+  
+
+    console.log('department view');
+    await clas.getclassview().then(row =>{
+        console.log("Data : ",[row]);
+        res.json([row])
+        
+    })
+    
+      
+
+})
+//////subclass////////////
+app.get('/getclassforsubclass',async(req,res)=>{
+    console.log('Enter');
+    await subclass.getclassforsubclass().then(row=>{
+        console.log(row);
+        res.json(row);
+    })
+})
+app.get('/getsubclassno',async(req,res)=>{
+    console.log('checking for the value',req.query);
+    console.log("dsd",req.query.classno); 
+    await subclass.getchecksubclassno(req.query.subclassno).then(row=>{
+        // console.log(res.json([row]));
+        console.log(row);
+         res.json(row);
+})
+})
+app.post('/subclasscreate',async(req,res)=>{
+    console.log("backend check inventory",req.body)
+    subclass.subclasscreate(req.body).then(row=>{
+        
+       res.send(row)
+     })
+   
+})
+app.get('/getsubclassview',async (req,res)=>{
+  
+
+    console.log('department view');
+    await subclass.getsubclassview().then(row =>{
+        console.log("Data : ",[row]);
+        res.json([row])
+        
+    })
+    
+      
+
+})
 //////inventory////////////
 app.post('/inventory',async(req,res)=>{
     console.log("backend check inventory",req.body)
    inv.inventory(req.body).then(row=>{
-      console.log("the row is",row);
+      console.log("the row is inventory",row);
        res.json(row);
    })
 })
 app.post('/inventory_sales',async(req,res)=>{
     console.log("backend check for inventory sales",req.body)
     inv.inventory_sales(req.body).then(row=>{
-        console.log("the row is",row)
+        console.log("the row is for",row)
         res.json(row);
     })
 })

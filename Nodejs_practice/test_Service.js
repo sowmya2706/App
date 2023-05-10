@@ -58,7 +58,7 @@ exports.get=async function get() {
             connection=await dbcon.connect();
 
             result = await connection.execute(
-                  "select * from SUPPLIER",
+                  "select * from SUPPLIER order by SUPPLIER",
                   [], {
                   resultSet: true,
                   outFormat: oracledb.OUT_FORMAT_OBJECT

@@ -8,7 +8,7 @@ exports.getstoreforsales=async function getstoreforsales()
         connection=await dbcon.connect();
 
         result2 = await connection.execute(
-              "select * from STORE ",
+              "select distinct STORE from item_loc order by STORE",
               [], {
               resultSet: true,
               outFormat: oracledb.OUT_FORMAT_OBJECT
@@ -50,7 +50,7 @@ exports.salesdetailsview=async function salesdetailsview()
         connection=await dbcon.connect();
 
         result2 = await connection.execute(
-              "select * from sales ",
+              "select * from sales order by INVOICE_NO",
               [], {
               resultSet: true,
               outFormat: oracledb.OUT_FORMAT_OBJECT

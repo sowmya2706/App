@@ -44,7 +44,7 @@ if (connection) {
 }
 }
 }
-exports.uploaditemloc=async function uploaditemloc(value) {
+exports.uploaditemloc= function uploaditemloc(value) {
       console.log("print",value);
       let st=value.STORE;
       let status=value.STATUS;
@@ -86,7 +86,7 @@ async function postitemloc(st,item,price,status)
         
           if (connection) {
                 try {
-                await connection.close();
+                 connection.close();
                 } catch (err) {
                 console.error(err);
                 }
@@ -101,7 +101,7 @@ exports.getstoreforstore=async function getstoreforstore()
         connection=await dbcon.connect();
 
         result2 = await connection.execute(
-              "select * from STORE ",
+              "select STORE from STORE order by STORE ",
               [], {
               resultSet: true,
               outFormat: oracledb.OUT_FORMAT_OBJECT
@@ -177,7 +177,7 @@ exports.getcheck=async function getcheck(STORE)
 }
 //oracledb.initOracleClient();
 //get function method
-exports.get=async function get() {
+exports.getstore=async function getstore() {
       
       let a=[];
 
@@ -191,7 +191,7 @@ exports.get=async function get() {
 
 
             result = await connection.execute(
-                  "select * from STORE",
+                  "select * from STORE order by STORE",
                   [], {
                   resultSet: true,
                   outFormat: oracledb.OUT_FORMAT_OBJECT
@@ -227,10 +227,6 @@ exports.get=async function get() {
 }
 }
 
-//module.exports={get};
-//module.exports.run=run;
-
-//post function method*/
 
 exports.post=async function post(value) {
       console.log("print");

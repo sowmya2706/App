@@ -32,7 +32,9 @@ async function inventorysalesupload(item,quanty,tot)
       try {
             connection= await dbcon.connect();
             resu = await connection.execute(
-                  `update inventory set sales_unit =${quanty} ,sales_cost=${tot}where ITEM='${item}' `,
+                  `update inventory set sales_unit =nvl(sales_unit,0)+${quanty} ,sales_cost=nvl(sales_cost,0)+(${quanty}*(select unit_cost from item where item='${item}')),
+                                        closing_unit=closing_unit-${quanty},CLOSING_COST=CLOSING_COST-(${quanty}*(select unit_cost from item where item='${item}'))
+                                 where ITEM='${item}' `,
                   {},
                   {
                  
@@ -78,8 +80,8 @@ async function inventoryupload(st,rece_item,rece_quanty)
                           e.closing_cost=closing_cost+(${rece_quanty}*(select unit_cost from ITEM where item='${rece_item}'))
                           
              WHEN NOT MATCHED THEN
-               INSERT (item,store,purchase_unit,purchase_cost,sales_unit,sales_cost,closing_unit,closing_cost)
-               VALUES ('${rece_item}',${st},${rece_quanty},(${rece_quanty}*(select unit_cost from ITEM where item='${rece_item}')),0,0,${rece_quanty},(${rece_quanty}*(select unit_cost from item where item='${rece_item}')))`,
+               INSERT (item,purchase_unit,purchase_cost,sales_unit,sales_cost,closing_unit,closing_cost,store)
+               VALUES ('${rece_item}',${rece_quanty},(${rece_quanty}*(select unit_cost from ITEM where item='${rece_item}')),0,0,${rece_quanty},(${rece_quanty}*(select unit_cost from item where item='${rece_item}')),${st})`,
 
                                   []
                  ,{

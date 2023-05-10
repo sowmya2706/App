@@ -293,7 +293,7 @@ exports.getstoreforpo=async function getstoreforpo()
         connection=await dbcon.connect();
 
         result2 = await connection.execute(
-              "select * from STORE ",
+              'select distinct s.store from store s, item_loc il,item i where s.store=il.store and il.item=i.item order by s.store',
               [], {
               resultSet: true,
               outFormat: oracledb.OUT_FORMAT_OBJECT
@@ -316,16 +316,16 @@ exports.getstoreforpo=async function getstoreforpo()
 
         console.error(err);
   }
-   finally {
+//    finally {
 
-if (connection) {
-      try {
-      await connection.close();
-      } catch (err) {
-      console.error(err);
-      }
-}
-}
+// if (connection) {
+//       try {
+//       await connection.close();
+//       } catch (err) {
+//       console.error(err);
+//       }
+// }
+// }
 }
 exports.getdetails=async function getdetails()
 {
@@ -336,7 +336,7 @@ exports.getdetails=async function getdetails()
         connection=await dbcon.connect();
 
         resultget = await connection.execute(
-              "select * from po_detail ",
+              "select * from po_detail order by ORDER_NO",
               [], {
               resultSet: true,
               outFormat: oracledb.OUT_FORMAT_OBJECT
@@ -379,7 +379,7 @@ exports.getponumberforpo=async function getponumberforpo()
 
         resu = await connection.execute(
             
-              `select ORDER_NO from po_create where PO_ACK_RECVD_IND='N'`,
+              `select ORDER_NO from po_create where PO_ACK_RECVD_IND='N' order by ORDER_NO`,
               [], {
               resultSet: true,
               outFormat: oracledb.OUT_FORMAT_OBJECT
