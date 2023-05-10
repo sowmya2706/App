@@ -26,9 +26,9 @@ import axios from "axios";
              alert("this record is already presented");
         }
     },
-    async  get() {
+    async  getstoreview() {
         const res = axios.get("http://localhost:4000/getStore")
-
+        console.log(res)
         return await res;
     },
     async getstoreval()

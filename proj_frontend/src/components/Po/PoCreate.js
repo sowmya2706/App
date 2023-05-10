@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Navigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
+
+import {  Link } from "react-router-dom";
 import Service from './Po_Service';
 import Select from 'react-select';
 import Modal from 'react-bootstrap/Modal';
@@ -26,6 +27,7 @@ import { ModalFooter } from 'react-bootstrap';
         errormsg:'',
         ORDER_NO:'',
         modal:false,
+        len:0,
       
         
         //WRITTEN_DATE:new Date().toLocaleString()
@@ -33,7 +35,10 @@ import { ModalFooter } from 'react-bootstrap';
       }
      
     }
-    
+    clearsupplier=(e)=>{
+      document.getElementById('supplier').value="Select"
+      this.handleForm(e);
+    }
     handleForm=(event)=>{
       console.log(event.target.value)
      // console.log([event.target.name,event.target.value])
@@ -108,24 +113,36 @@ ITEM:this.state.order_values,
       console.log("value for uplovali",uplovali)
          if(uplovali==true)
          {
-
+         console.log("going inside the funvc to check whether it is ter");
         Service.upload(user).then (res=>{
             //post method insertion
 
             console.log("response for po createnormal upload is",res);
             if(res!=undefined)
             {
-              document.getElementById("form").reset();
-              document.getElementById("order_no").value="";
-              document.getElementById("store").value="";
-              document.getElementById("supplier").value="";
+              if (window.confirm("Do you want to continue?") == true) {
+                console.log("u pressed ok and so true");
+                window.location.href = "http://localhost:3000/pocreate";
+
+              } else {
+                console.log("u pressed false");
+                window.location.href = "http://localhost:3000/home1";
+              }
+
+             
+              // document.getElementById("form").reset();
+              // document.getElementById("order_no").value="";
+              // document.getElementById("store").value="";
+              // document.getElementById("supplier").value="";
+              // window.location.reload(false);
+
             }
             else{
-              document.getElementById("order_no").value="";
-              document.getElementById("form").reset();
+              // document.getElementById("order_no").value="";
+              // document.getElementById("form").reset();
              
-              document.getElementById("store").value="";
-              document.getElementById("supplier").value="";
+              // document.getElementById("store").value="";
+              // document.getElementById("supplier").value="";
             }
            
 
@@ -143,12 +160,13 @@ ITEM:this.state.order_values,
           this.setState({supplier_values:res.data})
         
          })
-         console.log("got supplier values")
+         console.log("got supplier values",this.state.supplier_values)
          Service.getstore().then(res=>{
             console.log(res.data);
           this.setState({store_values:res.data})
         
          })
+         console.log("got store values",this.state.store_values)
          Service.getorder().then(res=>{
           console.log("ycuuuu ",res.data[0].NEXTVAL);
         this.setState({ORDER_NO:res.data[0].NEXTVAL})
@@ -171,29 +189,37 @@ ITEM:this.state.order_values,
         console.log("supplierpo is",supplierpo)
         console.log("printtt")
        console.log(e.target.value);
-       this.setState({
+       
+
+      
+       Service.getitem(supplierpo,storepo).then(res=>{
+        console.log("itemget response",res.length);
+       if(res.length==0)
+       {
+        alert("please choose another supplier");
+
+       }
+       else{
+        this.setState({item_values:res})
+        this.setState({
           modal:!(this.state.modal),
           [e.target.name]:e.target.value
       })
      
-
-      
-       Service.getitem(supplierpo,storepo).then(res=>{
-        console.log("itemget response",res);
-       
-        this.setState({item_values:res})
+       }
        //this.state.item_values=res
-        console.log("length is",this.state.item_values.length)
-        
+        // console.log("length is",this.state.item_values.length)
+       
        
         })
+        
         //e.target.checked=false;
-        if(document.getElementById("itemcheckbox_iswrapper").children[0].children[0]!=undefined)
-        {
-        console.log("dfwgeherg",document.getElementById("itemcheckbox_iswrapper").children[0].children[0])
-        document.getElementById("itemcheckbox_iswrapper").children[0].children[0].removeAttribute('checked')
+        // if(document.getElementById("itemcheckbox_iswrapper").children[0].children[0]!=undefined)
+        // {
+        // console.log("dfwgeherg",document.getElementById("itemcheckbox_iswrapper").children[0].children[0])
+        // document.getElementById("itemcheckbox_iswrapper").children[0].children[0].removeAttribute('checked')
       
-        }
+        // }
       }
      
       myfunc=(e,id)=>{
@@ -208,6 +234,19 @@ ITEM:this.state.order_values,
         document.getElementById(id).style.display="none";
         
       }
+      }
+      modalsubmit=(e)=>{
+        this.setState({
+          order_values:this.state.order_values
+       })
+       const val={
+        ITEM:this.state.order_values, 
+        //ORDERED_QUANTY:this.state.order_values, 
+      }
+       let uplovali=this.validation(val)
+      //  console.log(e.value)
+      console.log(this.state.order_values)
+      this.toggle();
       }
       saveQuantity=(e,item)=>{
         console.log("Quantity"+e.target.value);
@@ -252,31 +291,34 @@ ITEM:this.state.order_values,
   
       <div className='overallpo'>
         <NavBar/>
-        <div className='htmlpo'></div>
+        <div className='htmlpo'>
 
      <div id='contact-form-po'>
-      <h2>PO Creation</h2>
-        <form id="form" className="formpo"onSubmit={this.handleSubmit} >
+      <h2><center>PO Creation</center></h2>
+        <form id="form" className="formpo" onSubmit={this.handleSubmit} >
           <div>
             <div>
             <label for ="orderno">
-              <span className="requiredpo">Order number</span>
+              <span className="required">Order number</span>
             
-            <input type="number" id='order_no'name='ORDER_NO' onChange={this.handleForm} value={this.state.ORDER_NO}/> 
+            <input type="number" className="poin"id='order_no'name='ORDER_NO' onChange={this.handleForm} value={this.state.ORDER_NO}/> 
             </label>
             </div>
             <div style={{fontSize:14,color:'red'}}>{this.state.error['ORDER_NO']}</div> 
           
             <div>
             <label for="store">
-              <span className="requiredpo">Store</span>
+              <span className="required">Store</span>
 
-               <select name='STORE' id='store' onChange={this.handleForm} > 
+               <select name='STORE'className="poin" id='store'  onInput={this.clearsupplier}> 
+               <option>Select</option>
  
-                {this.state.store_values.map((store_values,i)=>
+                {
+                this.state.store_values.length>0?
+                this.state.store_values.map(store_values=>
 
-               {return <option>{store_values.STORE} </option>})} 
-                              <option>Select</option>
+               {return <option>{store_values.STORE} </option>}):null}
+                             
                               
                 </select>
                 
@@ -287,70 +329,78 @@ ITEM:this.state.order_values,
 
             <div>
              <label for="supplier">
-              <span className="requiredpo">Supplier</span>
+              <span className="required">Supplier</span>
 
-               <select name='SUPPLIER' id='supplier' onChange={this.itemget} onInput={this.handleForm} > 
-                {this.state.supplier_values.map((supplier_values,i)=>
- {return <option  >{supplier_values.SUPPLIER}</option>})} 
-                               <option>Select</option>
+               <select name='SUPPLIER' className="poin" id='supplier' onChange={this.itemget} onInput={this.handleForm} > 
+               <option>Select</option>
+                {
+                this.state.supplier_values.length>0?
+                this.state.supplier_values.map(supplier_values=>
+ {return <option  >{supplier_values.SUPPLIER}</option>}):null}
+                              
                                
                 </select>
 
                 </label>
             </div>
             <div style={{fontSize:14,color:'red'}}>{this.state.error['SUPPLIER']}</div> 
-    
+            <div>
+            <label for="comments">
+              <span className="required">Comments</span>
+            <input type="text" name="COMMENTS" className="poin" onChange={this.handleForm} /> 
+            </label>
+            </div>
+            <div className='submitButtonp'>
+            <button  type="submit" className="submits-item-po"onClick={this.reset}>SUBMIT</button>
+
+            <button type="reset"className="submits-item-c-po" onClick={this.reset}>CLEAR</button>
+         
+        </div>
+          </div>
+
+          <div>
             <div>
             <label for="terms">
-              <span className="requiredpo">Terms</span>
-            <input type="text" name="TERMS"  onChange={this.handleForm} /> 
+              <span className="required">Terms</span>
+            <input type="text" name="TERMS" className="poin"  onChange={this.handleForm} /> 
             </label>
             </div>
             <div style={{fontSize:14,color:'red'}}>{this.state.error['TERMS']}</div> 
    
             <div>
             <label for="fsv">
-              <span className="requiredpo">Freight Terms</span>
-            <input type="text" name="FREIGHT_TERMS"  onChange={this.handleForm} /> 
+              <span className="required">Freight Terms</span>
+            <input type="text" name="FREIGHT_TERMS" className="poin" onChange={this.handleForm} /> 
             </label>
             </div>
          
           
             <div>
             <label for="id">
-              <span className="requiredpo">Create UserID</span>
-            <input type="text" name="CREATE_USERID" value={window.sessionStorage.getItem("name")} onChange={this.handleForm} /> 
+              <span className="required">Create UserID</span>
+            <input type="text" name="CREATE_USERID" className="poin" value={window.sessionStorage.getItem("name")} onChange={this.handleForm} /> 
             </label>
             </div>
-       
-            <div>
-            <label for="comments">
-              <span className="requiredpo">Comments</span>
-            <input type="text" name="COMMENTS"  onChange={this.handleForm} /> 
-            </label>
+           
+            
             </div>
-            <div className='submitButton'>
-                <button type="submit" onClick={this.reset}>SUBMIT</button>
-              
-              </div>
-
-        </div>
-      
-        
+         
         </form>
+         
+        </div>
         </div>
         <Modal show={this.state.modal} onHide={this.toggle.bind(this)}>
-      <Modal.Header>ITEMS : <span className="closeBtn" onClick={this.toggle.bind(this)}>x</span></Modal.Header>
+      <Modal.Header>ITEMS : <span className="closeBtn" onClick={this.toggle.bind(this)}>X</span></Modal.Header>
       <Modal.Body>
       <div id="checkbox_renderer"> 
      
         <div id="itemcheckbox_iswrapper">
           {                
-          this.state.item_values.map((item,ind)=>
+          this.state.item_values?.map((item,ind)=>
             {
 
              return (
-             <div key={item.ITEM} id="check_wrap">
+             <div key={this.state.supplier} id="check_wrap">
                 <input type="checkbox" id={item} className="item_checkbox" name='ITEM'   onChange={this.handleForm} onClick={(e)=>{this.myfunc(e,ind)}}/>
                 <div id="checkbox_text">{item.ITEM}</div>
                 <input type="number" name='ORDERED_QUANTY' className="item_qty_tf" id={ind} placeholder='ordered quantity' onChange={this.handleForm} onKeyDown={(e)=>{this.saveQuantity(e,item)}} style={{"display":"none"}} />
@@ -369,7 +419,7 @@ ITEM:this.state.order_values,
       </Modal.Body>
       <Modal.Footer>
       <div>
-          <button type="submit">Submit</button>
+          <button type="submit" onClick={this.modalsubmit}>Submit</button>
         </div>
       </Modal.Footer>
      </Modal>

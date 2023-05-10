@@ -1,12 +1,45 @@
-.navbar{
+/* .navbar{
 height:80px;
+} */
+
+.navbar {
+  min-height: 80px;
+}
+
+.navbar-brand {
+  padding: 0 15px;
+  height: 80px;
+  line-height: 80px;
+}
+
+.navbar-toggle {
+  /* (80px - button height 34px) / 2 = 23px */
+  margin-top: 23px;
+  padding: 9px 10px !important;
+}
+
+@media (min-width: 768px) {
+  .navbar-nav > li > a {
+    /* (80px - line-height of 27px) / 2 = 26.5px */
+    padding-top: 26.5px;
+    padding-bottom: 26.5px;
+    line-height: 27px;
+  }
 }
 .list-group img{
   
     height:80px;
     /* size:50px; */
-    margin-left:40px;
+    margin-left:10px;
   }
+.dropdown-menu dropdown-menu-end show{
+  max-height:300px;
+  max-width:120%;
+}
+.Dropdown-menu{
+  max-height:300px !important;;
+width:130% !important;
+}
   .body_home{
     height:100vh;
     background-image: url('https://media.istockphoto.com/id/1165052026/photo/woman-using-mobile-smart-phone-in-the-night-light-colorful-background.jpg?s=170667a&w=0&k=20&c=I-7wAM_UG9CyImwlzCOxBt4njhQdDdy9m1_f1rzJ6Uk=');
@@ -25,28 +58,36 @@ height:80px;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     letter-spacing: 1.5px;
   }
+  
+.show {
+  overflow: visible !important;
+
+}
+  
   .list-group{
     background-color: white;
-      position: fixed;
+      position:fixed;
       top: 0;
       left: 0;
       right: 0;
       height: 80px;
-      display: flex;
+      display: flex !important;
+      flex-direction: row;
   align-items:center;
+  z-index: 2;
   box-shadow:0 0 25px 0 black;
   /*margin-right:50px;*/
   }
    .list-group *{
-    display: inline-block;
-    padding-right:30px;
+    /* display: inline-block !important; */
+    padding-right:10px;
   }
-  .list-group list-group-item{
+  /* .list-group list-group-item{
     margin:20px;
   }
   .list-group list-group-itemmm{
     margin:20px;
-  }
+  } */
    .list-group-item a{
     color:black;
     text-decoration:none;
@@ -54,7 +95,6 @@ height:80px;
   .list-group-itemmm a{
     color:rgb(210, 31, 31);
     text-decoration:none;
-    
     position:fixed;
     right:10px;
     top:29px;
@@ -88,10 +128,13 @@ height:80px;
     color:black;
   
   }
+  .nav-link{
+    color:black !important;
+  }
   .button{
     background: none!important;
     border: none;
-    padding: 0!important;
+    padding: 9!important;
     /*optional*/
     font-family: arial, sans-serif;
     /*input has OS specific font-family*/
@@ -99,5 +142,18 @@ height:80px;
     text-decoration: none;
     cursor: pointer;
     font-size: medium;
+  }
+  .logout{
+    justify-content: left;
+    align-items: center;
+    margin-top: 14px;
+    margin-left: 120px;
+    color:red !important;
+  }
+  .nav{
+    --bs-nav-link-hover-color:#6c757d;
+    
+    --bs-nav-link-color:black;
+
   }
   

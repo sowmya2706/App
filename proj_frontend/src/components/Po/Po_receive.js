@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Service from './Po_Service';
 import './Po_style.css';
 import NavBar from '../Nav.js'
+import Modal from 'react-bootstrap/Modal';
 import { Link } from 'react-router-dom';
  class Po_receive extends Component {
     constructor(props) {
@@ -12,10 +13,8 @@ import { Link } from 'react-router-dom';
          item_values:[{}],
          received_values:[],
          orderqua:'',
-         error:{}
-
-     
-
+         error:{},
+         modal:false,
       }
     }
     validation=(user)=>{
@@ -99,9 +98,24 @@ import { Link } from 'react-router-dom';
         Service.inventory(inv).then(res=>{
             console.log(inv);
            })
+
+           window.location.reload(false); 
     }
        
       
+    }
+    modalsubmit=(e)=>{
+      this.setState({
+        order_values:this.state.order_values
+     })
+     const val={
+      ITEM:this.state.order_values, 
+      //ORDERED_QUANTY:this.state.order_values, 
+    }
+     let uplovali=this.validation(val)
+    //  console.log(e.value)
+    console.log(this.state.order_values)
+    this.toggle();
     }
     componentDidMount(){
         Service.getponumber().then(res=>{
@@ -110,11 +124,20 @@ import { Link } from 'react-router-dom';
 
         })
     }
+    toggle(){
+        console.log("Toggling")
+        this.setState({
+          modal:!(this.state.modal),
+        })
+      }
+      reset=()=>{
+        window.location.reload(false)
+      }
     itemget=(e)=>{
         console.log("printtt")
        console.log(e.target.value);
        this.setState({
-       
+        modal:!(this.state.modal),
           [e.target.name]:e.target.value
       })
        Service.getitemporeceive(e.target.value).then(res=>{
@@ -175,68 +198,84 @@ import { Link } from 'react-router-dom';
     return (
       <div className='overallpo'>
         <NavBar/>
-        <div className='htmlpo'></div>
-        <div id='contact-form-po'>
-            <h2>PO Receive</h2>
-       <form id="form" className="formpo"onSubmit={this.handlesubmit}>
+        <div className='htmlpo'>
+        <div id='contact-form-po' >
+            <h2><center>PO Receive</center></h2>
+       <form id="form" className="formpo" style={{textAlign:'center',display:'block',paddingTop:'40px'}} onSubmit={this.handlesubmit}>
         <div>
           <div>
             <label for="date">
-                <span className='requiredpo'>PO ReceiveDate</span>
-            <input type="date" name="PO_RECEIVE_DATE" onChange={this.handleForm}/>
+                <span className='required'>PO ReceiveDate</span>
+            <input type="date" name="PO_RECEIVE_DATE" className="porin"onChange={this.handleForm}/>
+            
        </label>
         </div>
         <div style={{fontSize:14,color:'red'}}>{this.state.error['PO_RECEIVE_DATE']}</div> 
+       
 
         <div>
             <label for="ponumber">
-                <span className="requiredpo">PO Number</span>
-            <select name='PO_NUMBER' onInput={this.itemget}  onChange={this.handleForm}required>
+                <span className="required">PO Number</span>
+            <select name='PO_NUMBER' onInput={this.itemget} className="porin" onChange={this.handleForm}required>
              {this.state.po_number.map((po_number,i)=>
                {return<option> {po_number.ORDER_NO} </option>})} 
                <option>Select</option> 
                 </select>
+              
                 </label>
-                <div style={{fontSize:14,color:'red'}}>{this.state.error['PO_NUMBER']}</div> 
+               
         </div>
+        <div style={{fontSize:14,color:'red'}}>{this.state.error['PO_NUMBER']}</div> 
       
         <div>
             <label for="store">
-                <span className="requiredpo">Store</span>
-            <input type="text" name="STORE"  onChange={this.handleForm} value={this.state.item_values[0].STORE}></input>
+                <span className="required">Store</span>
+            <input type="text" name="STORE" className="porin"  onChange={this.handleForm} value={this.state.item_values[0].STORE}></input>
+           
             </label>
         </div>
-      <div style={{fontSize:14,color:'red'}}>{this.state.error['STORE']}</div> 
-     
-        <div>
-            <label for="item">
-                <span className="requiredpo">ITEM</span>
-            <div>
+        <div style={{fontSize:14,color:'red'}}>{this.state.error['STORE']}</div> 
+      <div >
+        <button className='submits-item-por'>SUBMIT</button>
+        <button className='submits-item-c-por' type="reset" onClick={this.reset}>CLEAR</button>
+        </div>
+        </div>
+        </form>
+        </div>
+        <Modal show={this.state.modal} onHide={this.toggle.bind(this)}>
+      <Modal.Header>ITEMS : <span className="closeBtn" onClick={this.toggle.bind(this)}>X</span></Modal.Header>
+      <Modal.Body>
+       <div id="checkbox_renderer">
+            <div id="itemcheckbox_iswrapper">
                 {
                     this.state.item_values.map((item,ind)=>{
                         return(
                             <div key={ind} style={{"display":"flex"}}>
-                                <input type="checkbox" id={item} name='ITEM' onChange={this.handleForm} onClick={(e)=>{this.myfunc(e,ind)}}/>{item.ITEM}
-                           
-                                <input type="number" placeholder='Received quantity'name='RECEIVED_QUANTY' id={ind} onChange={this.handleForm} onKeyDown={(e)=>{this.saveReceived_Quanty(e,item)}} style={{"display":"none"}}/>
+                                <input type="checkbox"   className="item_checkbox"id={item} name='ITEM' onChange={this.handleForm} onClick={(e)=>{this.myfunc(e,ind)}}/>
+                                <div id="checkbox_text">{item.ITEM}</div>
+                                <input type="number" className="item_qty_tf" placeholder='Received quantity'name='RECEIVED_QUANTY' id={ind} onChange={this.handleForm} onKeyDown={(e)=>{this.saveReceived_Quanty(e,item)}} style={{"display":"none"}}/>
                                 </div>
                         )
                     })
                 }
-            </div>
-            </label>
+           
+          
             <div style={{fontSize:14,color:'red'}}>{this.state.error['ITEM']}</div> 
             <div style={{fontSize:14,color:'red'}}>{this.state.error['RECEIVED_QUANTY']}</div> 
         </div>
        
-        <div className='submitButton'>
-        <button>Submit</button>
-
-        </div>
+      
           </div>
-       </form>
+          </Modal.Body>
+      <Modal.Footer>
+      <div>
+          <button type="submit" onClick={this.modalsubmit}>Submit</button>
+        </div>
+      </Modal.Footer>
+     </Modal>
       </div>
       </div>
+    
     
     )
   }

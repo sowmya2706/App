@@ -20,8 +20,9 @@ import NavBar from '../Nav.js';
 
 <main>
 <section>
-<em>RMS</em>
+
 <h1 class="title">Retail Management System App</h1>
+<br/>
 <NavBar/>
 <a href="#" class="btn1">LEARN MORE</a>
 </section>
@@ -80,7 +81,7 @@ import NavBar from '../Nav.js';
 
 <div class="section2">
 <section>
-<em>Category</em>
+<em>what we do</em>
 <h1 class="title"></h1>
 
 </section>
@@ -226,7 +227,7 @@ import NavBar from '../Nav.js';
 </section>
 </div>
 <div class="copyright">
-Copyright © 2021 websitename - All rights reserved  
+Copyright © 2023 rms@business - All rights reserved  
 </div>
 </footer>
 
@@ -236,12 +237,7 @@ Copyright © 2021 websitename - All rights reserved
 
 
 
-<div class="credits">
-<b>Credits:</b>
-<a href="https://postimg.cc" title="Publish Your Images" target="_blank">PostImages</a> , 
-<a href="https://www.flaticon.com" title="Cool Icons"  target="_blank">Flaticons</a> ,
-<a href="https://unsplash.com" title="Noncopyright Images" target="_blank">Unsplash</a> 
-</div> 
+
 </div> 
 );
 }

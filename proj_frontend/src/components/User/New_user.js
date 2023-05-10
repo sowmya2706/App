@@ -24,6 +24,7 @@ handleForm=(event)=>{
 }
 otpgenerate=(e)=>{
   e.preventDefault();
+  console.log(this.state.EMAIL)
   const val={
     EMAIL:this.state.EMAIL,
   }
@@ -92,7 +93,7 @@ handleSubmit=(e)=>{
       </div>
       <button type="submit"  onClick={this.otpgenerate} class="input-box">Generate OTP</button>
       <button type="submit"   class="input-box">SUBMIT</button>
-      <div>{this.state.navigate==true?<Navigate to="/home"replace={true}/>:""}</div>
+      <div>{this.state.navigate==true?<Navigate to="/home1"replace={true}/>:""}</div>
     </form>
   </div>
 </div>

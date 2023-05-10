@@ -121,7 +121,7 @@ import './Login_style.css'
             <div class="container">
                 <div class="left">
                 <div class="header">
-                <h2 class="animation a1">Retail Management System Tool</h2>
+                <h2 class="animation a1">Retail Management System </h2>
                 <h4 class="animation a2">Log in to your account using username and password</h4>
                 </div>
                    
@@ -142,7 +142,7 @@ import './Login_style.css'
 
               Show password <input type="checkbox"  onClick={this.toggleShow}></input>
             
-               <div className='submitButton'>
+               <div className='submitButtonl'>
                  <button className="animation a5" type="submit" > 
                SUBMIT
                 </button> 
@@ -170,7 +170,7 @@ import './Login_style.css'
                        
               
                  
-               <div>{this.state.navigate==true?<Navigate to="/home" replace={true} />:""}</div>
+               <div>{this.state.navigate==true?<Navigate to="/home1" replace={true} />:""}</div>
        
               
               

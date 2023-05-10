@@ -37,6 +37,9 @@ error:{},
       [event.target.name]:event.target.value
     })
   }
+  reset=()=>{
+    window.location.reload(false);
+  }
   handlesubmit=(e)=>{
     e.preventDefault();
     const user={
@@ -125,30 +128,30 @@ render()
         <div className='htmlsstore'></div>
         <div id='contact-form-store'>
        
-          <h2>Store Creation</h2>
+          <h2><center>Store Creation</center></h2>
         <form id="form" className="formstore" onSubmit={this.handlesubmit}>
        
       
         <div >
         <label for="store">
-          <span className="requiredstore">Store</span>
-         <input type="number" name="STORE"  onChange={this.handleForm} required/> 
+          <span className="required">Store</span>
+         <input type="number" className="storein"name="STORE"  onChange={this.handleForm} required/> 
          
          </label>
         </div>
         
         <div>
         <label for="storename">
-          <span className="requiredstore">Store Name</span>
-         <input type="text" name="STORE_NAME"  onChange={this.handleForm} required/> 
+          <span className="required">Store Name</span>
+         <input type="text" name="STORE_NAME" className="storein" onChange={this.handleForm} required/> 
          </label>
         </div>
      
          <div>
           
         <label for="Storeopendate">
-          <span className="requiredstore">Open date</span>
-         <input type="date" name="STORE_OPEN_DATE"  onChange={this.handleForm} required/> 
+          <span className="required">Open date</span>
+         <input type="date" name="STORE_OPEN_DATE" className="storein" onChange={this.handleForm} required/> 
          </label>
         </div>
        
@@ -160,24 +163,24 @@ render()
         <br/> */}
         <div>
         <label for="phonenumber">
-          <span className="requiredstore">Phone Number</span>
-         <input type="text" id="PHONE_NUMBER" name="PHONE_NUMBER"  onChange={this.handleForm} onInput={this.phonecheck}/> 
+          <span className="required">Phone Number</span>
+         <input type="text" id="PHONE_NUMBER" name="PHONE_NUMBER" className="storein" onChange={this.handleForm} onInput={this.phonecheck}/> 
          <div style={{fontSize:14,color:'red'}}>{this.state.error['PHONE_NUMBER']}</div>
          </label>
         </div>
        
         <div>
         <label for="email">
-          <span className="requiredstore">Email</span>
-         <input type="text" name="EMAIL" id="EMAIL" onChange={this.handleForm} onInput={this.emailcheck}/> 
+          <span className="required">Email</span>
+         <input type="text" name="EMAIL" id="EMAIL"className="storein" onChange={this.handleForm} onInput={this.emailcheck}/> 
          <div style={{fontSize:14,color:'red'}}>{this.state.error['EMAIL']}</div>
          </label>
         </div>
         
         <div>
         <label for="vatregion">
-          <span className="requiredstore">VAT Region</span>
-         <input type="text" name="VAT_REGION"  onChange={this.handleForm} /> 
+          <span className="required">VAT Region</span>
+         <input type="text" name="VAT_REGION" className="storein" onChange={this.handleForm} /> 
          </label>
         </div>
        
@@ -199,13 +202,15 @@ render()
         </div> */}
         <div>
         <label for="create username">
-           <span className="requiredstore">Username</span>
-         <input type="text" name="CREATE_USERNAME" value={window.sessionStorage.getItem("name")} onChange={this.handleForm} required/> 
+           <span className="required">Username</span>
+         <input type="text" name="CREATE_USERNAME"className="storein" value={window.sessionStorage.getItem("name")} onChange={this.handleForm} required/> 
          </label>
         </div>
 <div></div>
-        <div className='submit'>
-         <button type="submit">SUBMIT</button>
+        <div>
+         <button type="submit" className="submits-item-store">SUBMIT</button>
+         <button type="reset" className="submits-item-c-store" value="Reset">CLEAR</button>
+         {/* <button className='submits-item-c' onClick={this.reset}>Clear</button> */}
         
          </div>
        

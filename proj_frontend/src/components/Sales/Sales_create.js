@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Service from './Service';
-import NavBar from '../Nav.js'
-import './Salescreate.css'
+import NavBar from '../Nav.js';
+import Modal from 'react-bootstrap/Modal';
+import './Salescreate.css';
 class Sales_create extends Component {
     constructor(props) {
       super(props)
@@ -14,10 +15,25 @@ class Sales_create extends Component {
       overall_price:0,
       ans_bool:false,
       error:{},
+      modal:false,
       
 
          
       }
+    }
+    modalsubmit=(e)=>{
+      this.setState({
+        order_values:this.state.order_values,
+        overall_price:this.state.overall_price
+     })
+     const val={
+      ITEM:this.state.order_values, 
+      //ORDERED_QUANTY:this.state.order_values, 
+    }
+     let uplovali=this.validation(val)
+     console.log(e.value)
+    console.log(this.state.order_values)
+    this.toggle();
     }
     validation=(user)=>{
       //console.log("val",user.ITEM)
@@ -41,12 +57,17 @@ class Sales_create extends Component {
       })
       return re;
     }
-    
+    toggle(){
+      console.log("Toggling")
+      this.setState({
+        modal:!(this.state.modal),
+      })
+    }
     itemget=(e)=>{
         
        console.log("target is",e.target.value);
        this.setState({
-       
+        modal:!(this.state.modal),
           [e.target.name]:e.target.value
       })
        Service.getitem(e.target.value).then(res=>{
@@ -130,7 +151,13 @@ console.log("inside for",final_ans);
        // console.log(sto);
         if(e.key=="Enter")
        {
+
         console.log("the productitem is",productitem)
+        if(quantity<0)
+        {
+          this.state.error[e.target.name]="the ordered quantity is negative";
+          price=0;
+        }
         Service.quanty_check(productitem).then(res=>{
          
           if(quantity<=res[0].CLOSING_UNIT)
@@ -247,11 +274,21 @@ console.log("inside for",final_ans);
             //post method insertion
             console.log("value sent to the service",user)
             console.log("response for normal upload is",res);
+            if(res!=undefined)
+            {
+              window.location.reload(false);
+
+            }
         })
         Service.uploadsalesdetail(val).then (res=>{
           //post method insertion
           console.log("value for sales detail sent to the service")
           console.log("response for normal upload is",res);
+          if(res!=undefined)
+          {
+            window.location.reload(false);
+
+          }
       })
       Service.inventory_sales(sal_inv).then(res=>{
         console.log("value sent for inventory is",sal_inv)
@@ -262,92 +299,136 @@ console.log("inside for",final_ans);
     return (
         <div className='overallsales'>
             <NavBar/>
-            <div className='htmlsales'></div>
+            <div className='htmlsales'>
             <div id='contact-form-sales'>
-      <h2>Sales Creation</h2>
-   
+      <h2><center>Sales Creation</center></h2>
+      <br/>
       <form id="form" className="formsales"onSubmit={this.handleSubmit}>
       <div>
+
             <label for="Invoice number">
-              <span className="requiredsales">Invoice Number</span>
-            <input type="text" name='INVOICE_NO' onChange={this.handleForm} />
+              <span className="required">Invoice Number</span>
+            <input type="text" name='INVOICE_NO' className="salin" onChange={this.handleForm} required/>
+            <div style={{fontSize:14,color:'red'}}>{this.state.error['INVOICE_NO']}</div> 
             </label> 
     </div>
-    <div style={{fontSize:14,color:'red'}}>{this.state.error['INVOICE_NO']}</div> 
+    
   
     <div>
             <label for="invoice date">
-              <span className="requiredsales">Invoice Date</span>
-            <input type="date" name='INVOICE_DATE' onChange={this.handleForm} /> 
+              <span className="required">Invoice Date</span>
+            <input type="date" name='INVOICE_DATE' className="salin"  onChange={this.handleForm} /> 
+            <div style={{fontSize:14,color:'red'}}>{this.state.error['INVOICE_DATE']}</div> 
             </label>
     </div>
-    <div style={{fontSize:14,color:'red'}}>{this.state.error['INVOICE_DATE']}</div> 
+    <div>
+      <label for="overall price">
+        <span className="required">Total Amount </span>
+    <input type="text" name="INVENTORY_PRICE" className="salin"  value={this.state.overall_price}></input>
+    </label>
+    </div>
+
   
     <div>
             <label for="store">
-              <span className="requiredsales">Store</span>
+              <span className="required">Store</span>
           
-            <select   name='STORE'  onInput={this.handleForm}onChange={this.itemget}> 
-                {this.state.store_values.map((store_values,i)=>
-               {return   <option> {store_values.STORE} </option>})} 
-               <option>Select</option>
+            <select name='STORE' className="salin"  onInput={this.handleForm}onChange={this.itemget}> 
+            <option>Select</option>
+                {
+                
+                this.state.store_values.map((store_values,i)=>
+               {
+                console.log(store_values)
+                return   <option> {store_values.STORE} </option>})} 
+              
                 </select>
+                <div style={{fontSize:14,color:'red'}}>{this.state.error['STORE']}</div>  
                 </label>
     </div>
-    <div style={{fontSize:14,color:'red'}}>{this.state.error['STORE']}</div>    
-    <div>
-    <label for="item">
-      <span className="requiredsales">ITEM</span>
-              <div>
-                 {
-                this.state.item_values.map((item,ind)=>
-                  {
-                  console.log(item.ITEM)
-                   return (
-                    
-                   <div key={item.ITEM} style={{"display":"flex"}}>
-                    <input type="checkbox" id={item} name='ITEM'  onChange={this.handleForm} onClick={(e)=>{this.myfunc(e,ind)}}  />{item.ITEM} PRICE : {item.PRICE}
-                   <input type="number" name='QUANTITY' id={ind}  onChange={this.handleForm} onKeyDown={(e)=>{this.saveQuantity(e,item,ind)}} style={{"display":"none"}}/> 
-                  <input type="text" value={this.state.item_values[ind].total} ></input>
-                   
-                  </div>
-                
-                  )  
-                  }
-                )} 
-              </div>
-              </label>
-    </div>
-    <div style={{fontSize:14,color:'red'}}>{this.state.error['ITEM']}</div> 
-    <div style={{fontSize:14,color:'red'}}>{this.state.error['QUANTITY']}</div> 
-  
+ 
     <div>
             <label for="salestype">
-              <span className="requiredsales">Sales Type</span>
-            <select name= 'SALES_TYPE'onChange={this.handleForm}  > 
+              <span className="required">Sales Type</span>
+            <select name= 'SALES_TYPE' className="salin" onChange={this.handleForm} required > 
 
             
             <option>Select</option>
                 <option value="cash">Cash</option>
                 <option value="credit">Credit</option>
             </select> 
+            <div style={{fontSize:14,color:'red'}}>{this.state.error['SALES_TYPE']}</div>  
             </label>
     </div>
-   
+  
+  
     <div>
+   <button  className="submits-item-sales">SUBMIT</button>
+   <button type="reset" className="submits-item-c-sales">CLEAR</button>
+   </div>  
+ 
+   </form>
+   </div>
+   <Modal show={this.state.modal} onHide={this.toggle.bind(this)}>
+      <Modal.Header>ITEMS : <span className="closeBtn" onClick={this.toggle.bind(this)}>X</span></Modal.Header>
+      <Modal.Body>
+    <div id="checkbox_renderer">
+      <div id="itemcheckbox_iswrapper">
+   
+             
+                 {
+                
+                this.state.item_values.map((item,ind)=>
+                
+                  {
+                   
+                   return (
+                    
+                   <div key={item.ITEM} id="check_wrap">
+                    <input type="checkbox" id={item} name='ITEM' className="item_checkbox" onChange={this.handleForm} onClick={(e)=>{this.myfunc(e,ind)}}  />
+                    <div id="checkbox_text">{item.ITEM}</div>
+                    
+
+                   <input type="number" placeholder="quantity" name='QUANTITY' id={ind}  onChange={this.handleForm} onKeyDown={(e)=>{this.saveQuantity(e,item,ind)}} style={{"display":"none","marginRight":"18px"}}/> 
+                   <br/>
+                  <input type="text" PLACEHOLDER="Unit price" value={this.state.item_values[ind].total} ></input>
+                  <div id="checkbox_text"></div>
+                  </div>
+                
+                  )  
+                  }
+                )} 
+                   <div style={{fontSize:14,color:'red'}}>{this.state.error['ITEM']}</div> 
+    <div style={{fontSize:14,color:'red'}}>{this.state.error['QUANTITY']}</div> 
+
+  
+              </div>
+              </div>
+              </Modal.Body>
+      <Modal.Footer>
+      <div>
       <label for="overall price">
-        <span className="requiredsales">overall_price</span>
+        <span className="required">Total Amount </span>
     <input type="text" name="INVENTORY_PRICE" value={this.state.overall_price}></input>
     </label>
     </div>
   
-<div className='btn-link'>
-   <button  className="animation a5">submit</button>
-   </div>
+      <div>
+          <button type="submit" onClick={this.modalsubmit}>Submit</button>
+         
+        </div>
+      </Modal.Footer>
+     </Modal>
+     </div>   
+    </div>
+ 
+  
+  
+   
+   
+
       
-        </form>
-      </div>
-      </div>
+       
     )
   }
 }

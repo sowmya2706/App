@@ -97,6 +97,9 @@ phonecheck=(event)=>{
 
 
 }
+reset=()=>{
+    window.location.reload(false);
+}
 
 handlesubmit=(e)=>{
       
@@ -171,27 +174,27 @@ render() {
       <NavBar/>
       <div className='htmls'> </div>
         <div id='contact-form'>
-            <h2>Supplier Creation</h2>
-        <form id="form"className="forms"onSubmit={this.handlesubmit}>
+            <h2><center>Supplier Creation</center></h2>
+        <form id="form"className="form"onSubmit={this.handlesubmit}>
          
          <div>
          <label for="Supplier">
             <span className="required">Supplier </span>
-            <input type="text" id='supplier' name="SUPPLIER" placeholder='Supplier id' onChange={this.handleForm} /> 
+            <input type="text" className="supinput" id='supplier' name="SUPPLIER" placeholder='Supplier id' onChange={this.handleForm} /> 
          </label>
          <div style={{fontSize:14,color:'red'}}>{this.state.error['SUPPLIER']}</div>
          </div>
          <div>
          <label for="name">
             <span className="required">Supplier Name</span>
-            <input type="text" id='supplier_name'name="SUP_NAME" placeholder='Supplier name'onChange={this.handleForm}/> </label>
+            <input type="text" className="supinput" id='supplier_name'name="SUP_NAME" placeholder='Supplier name'onChange={this.handleForm}/> </label>
             <div style={{fontSize:14,color:'red'}}>{this.state.error['SUP_NAME']}</div>
          </div>
          <div>
          <label for="contact">
             
             <span className="required">Contact</span> 
-            <input type="textarea" id='conatct_name'name="CONTACT_NAME" placeholder='Name and address'onChange={this.handleForm} /> </label>
+            <input type="textarea" className="supinput" id='conatct_name'name="CONTACT_NAME" placeholder='Name and address'onChange={this.handleForm} /> </label>
             <div style={{fontSize:14,color:'red'}}>{this.state.error['CONTACT_NAME']}</div>
          </div>
          
@@ -199,7 +202,7 @@ render() {
          <label for="phone"> 
          <span className='required'>Phone</span>
          
-         <input type="text" id="CONTACT_PHONE"name="CONTACT_PHONE" placeholder='Phone number'onChange={this.handleForm} onInput={this.phonecheck} /> 
+         <input type="text" id="CONTACT_PHONE"name="CONTACT_PHONE" className="supinput"placeholder='Phone number'onChange={this.handleForm} onInput={this.phonecheck} /> 
          <div style={{fontSize:14,color:'red'}}>{this.state.error['CONTACT_PHONE']}</div>
          </label>
    
@@ -210,7 +213,7 @@ render() {
   
          <label for="pay">
             <span className="required">Payment Method</span>
-            <select id='payment' name= "PAYMENT_METHOD"onChange={this.handleForm}  > 
+            <select id='payment' className="supinput" name= "PAYMENT_METHOD"onChange={this.handleForm}  > 
 
             
             <option value="select">Select</option>
@@ -230,23 +233,32 @@ render() {
          <label for="Vat Region">
             <span className="required">Vat Region</span>
        
-         <input type="text" id='vat'name="VAT_REGION" placeholder='TN'onChange={this.handleForm} /> 
+         <input type="text" className="supinput" id='vat'name="VAT_REGION" placeholder='TN'onChange={this.handleForm} /> 
          </label>
          </div>
          <div>
          <label for="comments">
             <span className="required">Comments</span> 
-         <input type="text" id='comment'name="COMMENT_DESC" placeholder='' onChange={this.handleForm}/>
+         <input type="text" className="supinput" id='comment'name="COMMENT_DESC" placeholder='' onChange={this.handleForm}/>
          </label>
          </div>
          
 <div></div>
-         <div className='submit'>
-         <button type="submit">SUBMIT</button>
+         {/* <div> */}
+         {/* <button className="submit"type="submit">SUBMIT</button> */}
+         {/* <button className='submits-item-c' type="reset" value="Reset">CLEAR</button> */}
         
-           
-           
+         {/* <button className="submits-item-c" type="button" onClick={this.reset}>CLEAR</button> */}
+         {/* </div> */}
+         {/* className='submits-item' */}
+         <div >
+         <button className='submits-item'>SUBMIT</button>
+         <button className='submits-item-c' type="reset"onClick={this.reset}>CLEAR</button>
+         {/* <button className='submits-item-c' type="reset" value="Reset">CLEAR</button> */}
+         
          </div>
+           
+        
          </form>
        
  

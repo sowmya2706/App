@@ -11,6 +11,8 @@ import NavBar from '../Nav.js'
         data_value:[],
         currentpage:0,
         pagesize:5,
+        results:[],
+        flag:false,
       
       }
     }
@@ -33,6 +35,34 @@ import NavBar from '../Nav.js'
      })
      console.log(this.state.currentpage)
       }
+      getQuery(e){
+        let query=e.target.value;
+      
+        let getres=[]
+        console.log(this.state.data_value[0].length)
+        for(var i=0;i<this.state.data_value[0].length;i++)
+        {
+          console.log(String(this.state.data_value[0][i].ORDER_NO))
+          if(String(this.state.data_value[0][i].ORDER_NO).includes(e.target.value))
+          {
+            console.log("dfef");
+          
+           getres.push(this.state.data_value[0][i])
+           
+           
+          }
+       
+        }
+        this.setState({
+          results:getres,
+          flag:true
+        })
+        console.log(getres)
+       console.log(this.state.results)
+
+      }
+    
+
 
   render() {
     return (
@@ -44,6 +74,13 @@ import NavBar from '../Nav.js'
         <div className="title"><center>Po detail</center></div>
        
         <br/>
+        <div>
+                  Search
+                  <input type="text" placeholder="Search by Order number"name="search"onChange={this.getQuery.bind(this)}/>
+                 
+                
+                 
+                </div>
         <div className='cen'>
         <table>
               <thead >
@@ -55,7 +92,17 @@ import NavBar from '../Nav.js'
                   </thead>
                   <tbody >
                  
-                  {this.state.data_value.map(value =>{
+                  {
+                   this.state.flag==true?
+                   this.state.results.map(a =>{
+                    return (<tr> 
+                      <td>{a.ITEM}</td>
+                      <td>{a.ORDER_NO}</td>
+                      <td>{a.ORDERED_QUANTY}</td>
+                      <td>{a.RECEIVED_QUANTY}</td>
+                      </tr>)
+                                 } ):
+                  this.state.data_value.map(value =>{
                     console.log(value)
                    return value.slice(this.state.currentpage*this.state.pagesize,(this.state.currentpage+1)*this.state.pagesize).map(a=>{
                     

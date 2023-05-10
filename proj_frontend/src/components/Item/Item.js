@@ -34,11 +34,20 @@ supplier_values:[],
 navigate:false,
 error:{}, 
 user:[],
+dept_val:[],
+class_val:[],
+subclass_val:[],
 
         }
         // this.handleSubmit=this.handleSubmit.bind(this)
     }
-    
+    reset=()=>{
+    //  window.location.reload(false);
+      document.getElementById('form').reset();
+      document.getElementById('item').value="";
+     document.getElementById('itemdes').value="";
+    // document.getElementById('supplier').selectedIndex=0;
+    }
  
     handleForm=(event)=>{
         console.log(event.target.value)
@@ -76,6 +85,29 @@ user:[],
         this.setState({supplier_values:res.data})
       
        })
+       Service.getdeptval().then(res=>{
+        console.log(res.data);
+      this.setState({dept_val:res.data})
+    
+     })
+      }
+      classget=(e)=>{
+        console.log(e.target.value)
+        var dept=e.target.value;
+        Service.getclass(dept).then (res=>{
+          console.log("class response is",res)
+          this.setState({class_val:res})
+           console.log("class values are placed");
+        })
+      }
+      subclassget=(e)=>{
+        console.log(e.target.value)
+        var classno=e.target.value;
+        Service.getsubclass(classno).then (res=>{
+          console.log("class response is",res)
+          this.setState({subclass_val:res})
+           console.log("class values are placed");
+        })
       }
      
     handleSubmit=(e)=>{
@@ -95,10 +127,13 @@ user:[],
             COMMENTS  :this.state.COMMENTS  ,
             INVENTORY_IND   :'Y'   ,
             UNIT_COST:this.state.UNIT_COST,
+            DEPARTMENT:this.state.DEPARTMENT,
+            classde:this.state.classde,
+            subclassde:this.state.subclassde,
 
             CREATE_USERNAME:window.sessionStorage.getItem("name")    , 
 
-           PRICE:this.state.PRICE
+          //  PRICE:this.state.PRICE
         }
         const val={
           ITEM  :this.state.ITEM  ,
@@ -110,7 +145,7 @@ user:[],
 
 
 
-         PRICE:this.state.PRICE
+        //  PRICE:this.state.PRICE
       }
       console.log(this.state.user)
         console.log(val);
@@ -141,19 +176,16 @@ user:[],
           document.getElementById('item').value="";
          document.getElementById('itemdes').value="";
         document.getElementById('supplier').value="";
+        document.getElementById('department').value="";
+        document.getElementById('classde').value='';
+        document.getElementById('subclassde').value='';
         }
 
         })
       }
        
       }
-      
-//  HomeButton() {
-//   const navigate = useNavigate();
 
-//  handleClick=(e)=>{
-//     navigate("/home");
-//   }
     
   render() {
     return (
@@ -164,7 +196,7 @@ user:[],
     
       <div id="contact-forms">
 
-     <h2 className='h1'>Item Creation</h2>
+     <h2 className='h1'><center>Item Creation</center></h2>
      <br/>
     
         <form className="form" id="form" onSubmit={this.handleSubmit}>
@@ -172,25 +204,31 @@ user:[],
      
          <div>
          <label for ="item">
-         <span class="required">Item : *</span>
-         <input type="text" name="ITEM" id='item' placeholder='Item name' onChange={this.handleForm} invalid={this.state.ITEM===""} valid={this.state.ITEM!==undefined}/> 
-         <div style={{fontSize:18,color:'red'}}>{this.state.error['ITEM']}</div> 
+         <span class="required">Item : </span>
+         <input type="text" name="ITEM" id='item' className="iteminput" placeholder='Item name' onChange={this.handleForm} invalid={this.state.ITEM===""} valid={this.state.ITEM!==undefined}/> 
+         <div style={{fontSize:14,color:'red'}}>{this.state.error['ITEM']}</div> 
          </label>
          </div>
 
          
          <div>
         <label  for = "supplier">
-          <span class="required">Supplier : *</span>
-        <select  name='SUPPLIER' id='supplier' onChange={this.handleForm} > 
- 
+          <span class="required">Supplier : </span>
+        <select  name='SUPPLIER' id='supplier'className="iteminput" onChange={this.handleForm} > 
+        <option>Select</option>
+        
  {
- this.state.supplier_values.map((supplier_values,i)=>
-{
   
-  return <option>{supplier_values.SUPPLIER} </option>})} 
 
-               <option>Select</option>
+ this.state.supplier_values.length>0?
+ this.state.supplier_values.map(supplier_values=>{
+  
+  return <option>
+    {supplier_values.SUPPLIER}
+     </option>
+     }):null}
+
+      
               
  </select>
          
@@ -199,13 +237,63 @@ user:[],
 
          </div>
 
-        
+          <div>
+        <label for = "dept">
+          
+          <span class="required">Department : </span>
+        <select  name='DEPARTMENT' id='department' className="iteminput" onInput={this.handleForm} onChange={this.classget} defaultValue={{ label: "Select Dept", value: "Select" }}> 
+        <option>Select</option>
+ {
+ this.state.dept_val?.map((dept_val,i)=>
+{
+  
+  return <option  >{dept_val.DEP_NO} </option>})} 
+
+               
+              
+ </select>
+         </label></div>
+      
+         <div>
+        <label  for = "class">
+          <span class="required">Class : </span>
+        <select name='classde' id='classde' className="iteminput" onInput={this.handleForm} onChange={this.subclassget}> 
+        <option>Select</option>
+ {
+
+ this.state.class_val?.map((class_value,i)=>
+{
+  //console.log(this.state.class_val)
+  return <option > {class_value.CLASS_NO} </option>})} 
+
+             
+              
+ </select>
+         </label></div> 
+      
+         <div>
+        <label  for = "subclass">
+          <span class="required">Sub Class : </span>
+        <select  name='subclassde' id='subclassde' className="iteminput" onInput={this.handleForm} > 
+        <option>Select</option>
+ {
+
+ this.state.subclass_val?.map((subclass_value,i)=>
+{
+  console.log(this.props.value)
+ // console.log(this.state.subclass_val)
+  return <option defaultValue={this.subclass_value || 'Select'}>{subclass_value.SUB_CLASS_NO} </option>})} 
+
+              
+              
+ </select>
+         </label></div> 
       
 
          <div>
          <label for="ITEM_DESCRIPTION"> 
          <span class="required">Item Description : </span>
-         <input type="text" name="ITEM_DESCRIPTION" id='itemdes' placeholder='about the item' onChange={this.handleForm}/>
+         <input type="text" name="ITEM_DESCRIPTION" id='itemdes' className="iteminput" placeholder='about the item' onChange={this.handleForm}/>
          <div style={{fontSize:14,color:'red'}}>{this.state.error['ITEM_DESCRIPTION']}</div> 
          </label>
          </div>
@@ -215,42 +303,36 @@ user:[],
          <div>
          <label for="comments">
           <span class="required">Comments : </span>
-         <input type="text" name="COMMENTS"  placeholder=''onChange={this.handleForm}/>
+         <input type="text" name="COMMENTS" className="iteminput" placeholder=''onChange={this.handleForm}/>
          </label>
          </div>
 
      
-         <div>
+          <div>
          <label for="unitcost">
           <span class="required">Unit Cost :* </span>
-         <input type="text" name="UNIT_COST" id='unitcost' placeholder='' onChange={this.handleForm} />
+         <input type="text" name="UNIT_COST" className="iteminput" id='unitcost' placeholder='' onChange={this.handleForm} />
          <div style={{fontSize:14,color:'red'}}>{this.state.error['UNIT_COST']}</div> 
         
          </label>
          </div>
 
-         <div>
-         <label for="price">
-          <span class="required">Price : * </span>
-         <input type="text" name="PRICE" id='price' placeholder=''onChange={this.handleForm} />
-         <div style={{fontSize:14,color:'red'}}>{this.state.error['PRICE']}</div> 
-         
-         </label>
-         </div>
 
          
  
          <div>
          <label for="create id">
           <span class="required">Created Username: </span>
-         <input type="text" name="CREATE_USERNAME"  value={window.sessionStorage.getItem("name")}placeholder=''onChange={this.handleForm}/>
+         <input type="text" name="CREATE_USERNAME" className="iteminput" value={window.sessionStorage.getItem("name")}placeholder=''onChange={this.handleForm}/>
          </label>
          </div>
  
   
       
          <div >
-         <button className='submits-item'>SUBMIT</button>
+         <button className='submits-item-item'>SUBMIT</button>
+         <button className='submits-item-c-item' type="reset"onClick={this.reset}>CLEAR</button>
+         {/* <button className='submits-item-c' type="reset" value="Reset">CLEAR</button> */}
          
          </div>
          
@@ -259,6 +341,7 @@ user:[],
     
     
        </form>
+      
        </div>
          </div>
          </div>

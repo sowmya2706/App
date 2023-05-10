@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Service from './Service';
 import NavBar from '../Nav.js'
+import Modal from 'react-bootstrap/Modal';
 // import './Storestyle.css'
 import './Itemlocstyle.css'
  class Item_loc extends Component {
@@ -12,6 +13,7 @@ import './Itemlocstyle.css'
         item_values:[{}],
         order_values:[],
         error:{},
+        modal:false,
         
       }
     }
@@ -40,6 +42,7 @@ STATUS:this.state.STATUS,
                 STATUS:'',
                 STORE:'',
               })
+              window.location.reload(false);
               document.getElementById("form").reset();
               document.getElementsByName('STATUS').value="";
               document.getElementsByName('ITEM').value="";
@@ -50,6 +53,28 @@ STATUS:this.state.STATUS,
             }
         })
       }
+    }
+    toggle(){
+      console.log("Toggling")
+      this.setState({
+        modal:!(this.state.modal),
+      })
+    }
+    reset=()=>{
+      window.location.reload(false);
+    }
+    modalsubmit=(e)=>{
+      this.setState({
+        order_values:this.state.order_values
+     })
+     const val={
+      ITEM:this.state.order_values, 
+      //ORDERED_QUANTY:this.state.order_values, 
+    }
+     let uplovali=this.validation(val)
+     console.log(e.value)
+    console.log(this.state.order_values)
+    this.toggle();
     }
     handleForm=(event)=>{
       this.state.error[event.target.name]=" "
@@ -87,7 +112,7 @@ STATUS:this.state.STATUS,
         console.log("going inside itemget")
         console.log("the target value for store is",e.target.value);
         this.setState({
-       
+          modal:!(this.state.modal),
             [e.target.name]:e.target.value
         })
         Service.getitem(e.target.value).then(res=>{
@@ -145,14 +170,16 @@ STATUS:this.state.STATUS,
         <h2><center>Item Location</center></h2>
  
       <form id="form" className='formitemloc' onSubmit={this.handleSubmit}>
+        <div>
       <div>
             <label for='Store'>
               <span class="required">Store :</span>
           
-            <select   name='STORE' onInput={this.handleForm} onChange={this.itemget}> 
+            <select  className="locin" name='STORE' onInput={this.handleForm} onChange={this.itemget} required> 
+            <option>Select</option>
                 {this.state.store_values.map((store_values,i)=>
                {return   <option> {store_values.STORE} </option>})} 
-                  <option>Select</option>
+
                 </select>
              
                 </label>
@@ -162,42 +189,62 @@ STATUS:this.state.STATUS,
   
 
     <div>
- 
-      <span className="required">ITEM</span>
-              <div>
-                 {
+        <label for='status'>
+          <span className="required">Status</span>
+        <input type="text" className="locin" id='status'name='STATUS' onChange={this.handleForm} /> 
+        </label>
+    </div>
+    
+                 <div style={{fontSize:14,color:'red'}}>{this.state.error['STATUS']}</div> 
+            
+                 <div className='submitButton'>
+    <button type="submit" className="submits-item-itemloc">SUBMIT</button>
+    <button type="reset" className="submits-item-c-itemloc" onclick={this.reset}>CLEAR</button>
+    </div>
+    </div>
+ </form>
+ </div>
+
+   
+   <Modal show={this.state.modal} onHide={this.toggle.bind(this)}>
+    
+ <Modal.Header>ITEM mapping : <span className="closeBtn" onClick={this.toggle.bind(this)}>X</span></Modal.Header>
+ <Modal.Body>
+
+              <div id="checkbox_renderer"> 
+              <div id="itemcheckbox_iswrapper">
+          {                
+                 
                
                 this.state.item_values.map((item,ind)=>
                   {
                     // console.log(item.ITEM)
                    return (
-                   <div key={item.ITEM} style={{"display":"flex"}}>
-                    <input type="checkbox"  id={item} name='ITEM' placeholder='ITEM'  onClick={(e)=>{this.myfunc(e,ind)}} />{item.ITEM }
-                    <input type="number" name='PRICE'  id={ind} placeholder='Price' onKeyDown={(e)=>{this.saveQuantity(e,item)}} style={{"display":"none"}} /> 
+                   <div key={item.ITEM} id="check_wrap" >
+                    <input type="checkbox"  id={item} name='ITEM' placeholder='ITEM' className="item_checkbox" onChange={this.handleForm}  onClick={(e)=>{this.myfunc(e,ind)}} />
+                    <div id="checkbox_text">{item.ITEM}</div>
+                    <input type="number" name='PRICE'  id={ind} className="item_qty_tf" placeholder='Price' onKeyDown={(e)=>{this.saveQuantity(e,item)}} style={{"display":"none"}} /> 
                    
                   </div>
                 
                   )  
                   }
                 )} 
-              </div>
+             
               <div style={{fontSize:14,color:'red'}}>{this.state.error['ITEM']}</div> 
                  <div style={{fontSize:14,color:'red'}}>{this.state.error['PRICE']}</div> 
-              <div>
-        <label for='status'>
-          <span className="required">Status</span>
-        <input type="text" id='status'name='STATUS' onChange={this.handleForm} /> 
-        </label>
-    </div>
+                 </div>
+                 </div>
+                
+                 </Modal.Body>
+      <Modal.Footer>
+      <div>
+          <button type="submit" onClick={this.modalsubmit}>Submit</button>
+        </div>
+      </Modal.Footer>
+     </Modal>
+      </div>
     
-                 <div style={{fontSize:14,color:'red'}}>{this.state.error['STATUS']}</div> 
-            
-    </div>
-    <button type="submit">SUBMIT</button>
-    </form>
-      </div>
-
-      </div>
     )
   }
 }

@@ -13,16 +13,19 @@ class ItemView extends Component {
     this.state = {
      
       data_value:[],
+      results:[],
       currentpage:0,
       pagesize:5,
+      error:{}, 
+      flag:false,
       
      
               }
           }
-          handlePageChange(pageNumber) {
-            console.log(`active page is ${pageNumber}`);
-            this.setState({activePage: pageNumber});
-          }
+          // handlePageChange(pageNumber) {
+          //   console.log(`active page is ${pageNumber}`);
+          //   this.setState({activePage: pageNumber});
+          // }
 
           componentDidMount(){
             Service.get().then(res=>{
@@ -40,6 +43,36 @@ class ItemView extends Component {
          })
          console.log(this.state.currentpage)
           }
+        
+          getQuery(e){
+            let query=e.target.value;
+            console.log(query)
+
+            console.log(this.state.data_value[0].length)
+            let getres=[]
+            for(var i=0;i<this.state.data_value[0].length;i++)
+            {
+              if(this.state.data_value[0][i].ITEM.includes(e.target.value))
+              {
+                console.log("dfef");
+              //  console.log(this.state.data_value[0][i])
+               // this.state.results=[this.state.data_value[0][i]];
+               getres.push(this.state.data_value[0][i])
+               // console.log([this.state.results])
+               
+              }
+           
+            }
+            
+            this.setState({
+              results:getres,
+              flag:true
+            })
+            console.log(getres)
+           console.log(this.state.results)
+
+          }
+        
   
   
   render() {
@@ -49,28 +82,95 @@ class ItemView extends Component {
          <br/>
         <br/>
         <div><h2 className="title"><center>Item Details</center></h2></div>
-   
+   <div>
+                  Search
+                  <input type="text" placeholder="Search by item" name="search"onChange={this.getQuery.bind(this)}/>
+                 
+                
+                 
+                </div>
+                {/* <div className="results">
+          {
+           
+            this.state.results? this.state.results.map((value)=>{
+
+              console.log(value.ITEM)
+              return(
+              
+              <div>{value.ITEM}</div>
+              )
+            }):null
+          }
+          
+          
+
+
+        </div> */}
 
        
         <div className='cen'>
+
           <table>
+          
               <thead>
-                  <th>ITEM</th>
-                  <th>STATUS  </th>
-                  <th>ITEM_DESCRIPTION </th>
-                  <th>SUPPLIER</th>
-                  <th>FORECAST_IND</th>
-                  <th>SELLABLE_IND </th>
-                  <th>ORDERABLE_IND  </th>
-                  <th>INVENTORY_IND</th>
-                  <th>UNIT_COST </th>
+             
+                
+                
+                  <th>Item</th>
+                  <th>Status </th>
+                  <th>Item Description </th>
+                  <th>Supplier</th>
+                  <th>Forecast_IND</th>
+                  <th>Sellable_IND </th>
+                  <th>Orderable_IND  </th>
+                  <th>Inventory_IND</th>
+                  <th>Unit Cost</th>
                   {/* <th>CREATE_USERNAME </th> */}
-                  <th>CREATE_DATETIME</th>
-                  <th>PRICE</th>
+                  <th>Department</th>
+                  <th>Class</th>
+                  <th>SubClass</th>
+                  <th>Date</th>
+                  {/* <th>Price</th> */}
               
               </thead>
               <tbody>
-             {this.state.data_value.map(value =>{
+                
+             
+              
+              {
+                this.state.flag==true?
+                this.state.results.map(a =>{
+                  // return value.slice(this.state.currentpage*this.state.pagesize,(this.state.currentpage+1)*this.state.pagesize).map(a=>{
+                   
+                   
+                      return (<tr>
+                          
+                           <td>{a.ITEM}</td>
+                           <td>{a.STATUS  }</td>
+                           <td>{a.ITEM_DESCRIPTION }</td>
+                           <td>{a.SUPPLIER}</td>
+                       
+                           <td>{a.FORECAST_IND}</td>
+                           <td>{a.SELLABLE_IND }</td>
+                           <td>{a.ORDERABLE_IND  }</td>
+               
+                           <td>{a.INVENTORY_IND}</td>
+                           <td>{a.UNIT_COST }</td>
+                           <td>{a.DEPARTMENT}</td>
+                           <td>{a.CLASS}</td>
+                           <td>{a.SUBCLASS}</td>
+                        
+                           <td>{a.CREATE_USERNAME }</td>
+                           {/* <td>{a.CREATE_DATETIME}</td> */}
+                           {/* <td>{a.PRICE }</td> */}
+                          
+                       </tr>)
+                 
+                  // })
+                 
+                 }):
+              
+             this.state.data_value.map(value =>{
    return value.slice(this.state.currentpage*this.state.pagesize,(this.state.currentpage+1)*this.state.pagesize).map(a=>{
     
     
@@ -87,13 +187,18 @@ class ItemView extends Component {
 
             <td>{a.INVENTORY_IND}</td>
             <td>{a.UNIT_COST }</td>
+            <td>{a.DEPARTMENT}</td>
+            <td>{a.CLASS}</td>
+            <td>{a.SUBCLASS}</td>
          
             <td>{a.CREATE_USERNAME }</td>
             {/* <td>{a.CREATE_DATETIME}</td> */}
-            <td>{a.PRICE }</td>
+            {/* <td>{a.PRICE }</td> */}
            
         </tr>)
+  
    })
+  
   })
 }
 

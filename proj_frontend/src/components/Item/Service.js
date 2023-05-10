@@ -42,5 +42,35 @@ import axios from "axios";
        // console.log("get completed succ",await(res));
         return await res;
     },
+    async getdeptval()
+    {
+        console.log("getting deptval")
+        const res = axios.get("http://localhost:4000/getdeptforitem")
+       // console.log("get completed succ",await(res));
+        return await res;
+    },
+    async getclass(dept)        
+    {
+       // receivecheck?received_quantity="+value.received_qunatity+"&received_item="+value.received_item
+       // {
+      console.log("sent value is",dept);
+        const res = await axios.get("http://localhost:4000/getclassforitem?department="+dept);
+       //  //alert("succesfull");
+        console.log("response in the frontend",res.data);
+        return await res.data;
+       
+   },
+   async getsubclass(classno)        
+   {
+      // receivecheck?received_quantity="+value.received_qunatity+"&received_item="+value.received_item
+      // {
+     console.log("sent value is",classno);
+       const res = await axios.get("http://localhost:4000/getsubclassforitem?classno="+classno);
+      //  //alert("succesfull");
+       console.log("response in the frontend",res.data);
+       return await res.data;
+      
+  },
+
 }
 export default  Service;

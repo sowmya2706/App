@@ -13,7 +13,8 @@ import NavBar from "../Nav.js"
       this.state = {
         data_value:[],
         currentpage:0,
-        pagesize:5,
+        pagesize:7,
+        flag:false,
          
       }
     }
@@ -33,7 +34,34 @@ import NavBar from "../Nav.js"
    })
    console.log(this.state.currentpage)
     }
+    getQuery(e){
+      let query=e.target.value;
     
+      let getres=[]
+      console.log(this.state.data_value[0].length)
+      for(var i=0;i<this.state.data_value[0].length;i++)
+      {
+        console.log((this.state.data_value[0][i].ORDER_NO))
+        if(this.state.data_value[0][i].ITEM.includes(e.target.value))
+        {
+          console.log("dfef");
+        
+         getres.push(this.state.data_value[0][i])
+         
+         
+        }
+     
+      }
+      this.setState({
+        results:getres,
+        flag:true
+      })
+      console.log(getres)
+     console.log(this.state.results)
+
+    }
+  
+
   render() {
     return (
         <div>
@@ -46,21 +74,47 @@ import NavBar from "../Nav.js"
       <div><h2 className="title"><center>Inventory Detail</center></h2></div>
    
       <br/>
+      <div>
+                  Search
+                  <input type="text" name="search" placeholder="Search by item"onChange={this.getQuery.bind(this)}/>
+                 
+                
+                 
+                </div>
       <div class="cen">
         <table>
               <thead>
                   <th>Item</th>
+                  <th>Store</th>
                   <th>Purchase Unit</th>
                   <th>Purchase Cost</th>
                   <th>Sales Unit</th>
                   <th>Sales Cost</th>
                   <th>Closing Unit</th>
                   <th>Closing Cost</th>
-                  <th>Store</th>
+                 
                   </thead>
                   <tbody> 
 
-                  { this.state.data_value.map(value =>{
+                  {
+                                     this.state.flag==true?
+                                     this.state.results.map(a =>{
+                                      return (<tr>
+                                        <td>{a.ITEM}</td>
+                                        <td>{a.STORE}</td>
+                                        <td>{a.PURCHASE_UNIT}</td>
+                                        <td>{a.PURCHASE_COST}</td>
+                                        <td>{a.SALES_UNIT}</td>
+                                        <td>{a.SALES_COST}</td>
+                                        <td>{a.CLOSING_UNIT}</td>
+                                        <td>{a.CLOSING_COST}</td>
+                                        
+                                       
+                
+                
+                                        </tr>)
+                                    }):
+                                       this.state.data_value.map(value =>{
                      console.log("fwf")
                      console.log(value)
 console.log(this.state.data_value[0].length)
@@ -68,13 +122,14 @@ console.log(this.state.data_value[0].length)
                       
                      return (<tr>
                         <td>{a.ITEM}</td>
+                        <td>{a.STORE}</td>
                         <td>{a.PURCHASE_UNIT}</td>
                         <td>{a.PURCHASE_COST}</td>
                         <td>{a.SALES_UNIT}</td>
                         <td>{a.SALES_COST}</td>
                         <td>{a.CLOSING_UNIT}</td>
                         <td>{a.CLOSING_COST}</td>
-                        <td>{a.STORE}</td>
+                       
                        
 
 
@@ -89,9 +144,9 @@ console.log(this.state.data_value[0].length)
          </div>
          <Pagination 
           activePage={this.state.currentpage+1}
-          itemsCountPerPage={5}
+          itemsCountPerPage={7}
           totalItemsCount={this.state.data_value[0]==undefined?0:this.state.data_value[0].length}
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={9}
           onChange={this.handlePageChange.bind(this)}
         />
          </div>

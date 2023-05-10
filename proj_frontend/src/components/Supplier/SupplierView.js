@@ -11,14 +11,17 @@ class SupplierView extends Component {
     
       this.state = {
         data_value:[],
+        results:[],
         currentpage:0,
         pagesize:10,
+        flag:false,
       }
     }
     componentDidMount(){
         Service.get().then(res=>{
             this.setState({data_value:res.data})
            })
+           console.log(this.state.data_value)
           
            
        }
@@ -31,6 +34,30 @@ class SupplierView extends Component {
      })
      console.log(this.state.currentpage)
       }
+      getQuery(e){
+        let query=e.target.value;
+        console.log(query)
+        let getres=[]
+        for(var i=0;i<this.state.data_value[0].length;i++)
+        {
+          if(this.state.data_value[0][i].SUPPLIER.includes(e.target.value))
+          {
+            console.log("dfef");
+          //  console.log(this.state.data_value[0][i])
+           // this.state.results=[this.state.data_value[0][i]];
+           getres.push(this.state.data_value[0][i])
+           // console.log([this.state.results])
+           
+          }
+        }
+        this.setState({
+          results:getres,
+          flag:true
+        })
+        console.log(getres)
+       console.log(this.state.results)
+
+      }
   render() {
     return (
       <div>
@@ -38,9 +65,15 @@ class SupplierView extends Component {
         <br/>
         <br/>
         
-        <div><h2 className='title'><center>Supplier View</center></h2>
-      
-        <br/>
+        <div><h2 className='title'><center>Supplier View</center></h2></div>
+        <div>
+                  Search
+                  <input type="text" placeholder="Search by Supplier" name="search"onChange={this.getQuery.bind(this)}/>
+                 
+                
+                 
+                </div>
+       
         <div className='cen'>
         <table>
                 <thead>
@@ -59,10 +92,27 @@ class SupplierView extends Component {
                     
                 </thead>
                 <tbody>
-                {this.state.data_value.map(value =>{
-                  console.log(this.state.data_value[0].length)
+                {
+                this.state.flag==true?
+                this.state.results.map(a =>{
+                  return (<tr>
+                    <td>{a.SUPPLIER}</td>
+                    <td>{a.SUP_NAME  }</td>
+                    <td>{a.CONTACT_NAME }</td>
+                    <td>{a.CONTACT_PHONE}</td>
+                    <td>{a.SUP_STATUS }</td>
+                    <td>{a.FREIGHT_TERMS}</td>
+                    <td>{a.PAYMENT_METHOD  }</td>
+                    <td>{a.FREIGHT_CHARGE_IND}</td>
+                    <td>{a.PREPAY_INVC_IND}</td>
+                    <td>{a.BACKORDER_IND}</td>
+                    <td>{a.VAT_REGION}</td>
+                </tr>)
+            }):
+                this.state.data_value.map(value =>{
+                
             return value.slice(this.state.currentpage*this.state.pagesize,(this.state.currentpage+1)*this.state.pagesize).map(a=>{
-                console.log( value.slice(this.state.currentpage*this.state.pagesize,(this.state.currentpage+1)*this.state.pagesize))
+                
                 return (<tr>
                      <td>{a.SUPPLIER}</td>
                      <td>{a.SUP_NAME  }</td>
@@ -78,8 +128,8 @@ class SupplierView extends Component {
                  </tr>)
              }) 
           })
+        
         }
-         
         </tbody>
         </table>
 
@@ -92,7 +142,7 @@ class SupplierView extends Component {
           onChange={this.handlePageChange.bind(this)}
         />
         </div>
-        </div>
+    
    
     )
   }

@@ -1,0 +1,67 @@
+.html{
+    background:url(../Store/img/wallpaper.jpg) no-repeat;
+    background-size: cover;   
+    height:710px;
+    width:1350px;
+    margin-top: 20px;
+   background-size: cover;
+    background-color: whitesmoke;
+ }
+ .overallitem{
+    display: flex;
+   
+ }
+ .formmer{
+    display:block;
+    text-align: center;
+    margin: 12px;
+ }
+ .merinput{
+   
+    width: 200px !important;
+    display: block;
+ }
+ #contact-forms-mer{
+    /* margin:12px !important; */
+    text-align:center !important;
+    background-color:rgba(59, 51, 51, 0.098);
+    padding: 18px !important;
+    max-width:100% !important;
+    max-height:90% !important;
+    min-height:70% !important;
+    float: left !important;
+    left: 58% !important;
+    position: relative !important;
+    margin-top:125px !important;
+    margin-left: -260px !important;
+    border-radius:7px !important;
+    -webkit-border-radius:7px !important;
+    -moz-border-radius:7px !important;
+ }
+ .submits-item-m{
+    padding: 5px !important;
+    background: linear-gradient(to right, #de48b5 0%,#0097ff 100%);
+    border:none;
+    border-radius: 3px;
+    color:white;
+    margin-top: 29px;
+    /* margin-top:84px !important; */
+    
+ }
+ .submits-item-m-clear{
+   padding: 5px !important;
+   background: linear-gradient(to right, #de48b5 0%,#0097ff 100%);
+   border:none;
+   border-radius: 3px;
+   color:white;
+   margin-top: 29px;
+   margin-left: 25px;
+   margin-top:84px !important;
+   
+  
+
+}
+ #contact-forms-mer .required {
+    font-weight: bold;
+    color: #2f3235;
+ }

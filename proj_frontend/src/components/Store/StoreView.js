@@ -11,8 +11,10 @@ import Pagination from "react-js-pagination";
   
     this.state = {
        data_value:[],
+       results:[],
+       flag:false,
        currentpage:0,
-       pagesize:10,
+       pagesize:5,
     }
   }
   handlePageChange(e){
@@ -26,10 +28,34 @@ import Pagination from "react-js-pagination";
   }
   
   componentDidMount(){
-    Service.get().then(res=>{
+    Service.getstoreview().then(res=>{
       this.setState({data_value:res.data})
      })
+     console.log(this.state.res)
+     console.log(this.state.data_value)
     }
+    getQuery(e){
+      let query=e.target.value;
+      console.log(query)
+      console.log(this.state.data_value[0].length)
+      let getres=[]
+      for(var i=0;i<this.state.data_value[0].length;i++)
+      {
+        console.log(this.state.data_value[0][i].STORE)
+        if(String(this.state.data_value[0][i].STORE).includes(e.target.value))
+        {
+          console.log("dfef");
+          getres.push(this.state.data_value[0][i])
+        }
+      }
+        this.setState({
+          results:getres,
+          flag:true
+        })
+        console.log(getres)
+       console.log(this.state.results)
+
+      }
    render(){
       return (
         <div>
@@ -37,6 +63,13 @@ import Pagination from "react-js-pagination";
           <br/>
           <br/>
           <div><h2 className='title'><center>Store View</center></h2></div>
+          <div>
+                  Search
+                  <input type="text" placeholder="Search by Store"name="search"onChange={this.getQuery.bind(this)}/>
+                
+                
+                 
+                </div>
           <div className='cen'>
             <table>
               <thead>
@@ -55,7 +88,26 @@ import Pagination from "react-js-pagination";
                    
                 </thead>
                 <tbody>
-                {this.state.data_value.map(value =>{
+                {
+                this.state.flag==true?
+                this.state.results.map(a =>{
+                  return (<tr>
+                    <td>{a.STORE}</td>
+                    <td>{a.STORE_NAME}</td>
+                    {/* <td>{a.STORE_OPEN_DATE}</td> */}
+                    {/* <td>{a.STORE_CLOSE_DATE}</td> */}
+                    <td>{a.PHONE_NUMBER}</td>
+                    <td>{a.EMAIL}</td>
+                    <td>{a.VAT_REGION}</td>
+                    <td>{a.VAT_INCLUDE_IND}</td>
+                    <td>{a.STOCKHOLDING_IND}</td>
+                    <td>{a.AUTO_RCV}</td>
+                    {/* <td>{a.CREATE_DATETIME}</td> */}
+                    <td>{a.CREATE_USERNAME}</td>
+                  
+                </tr>)
+            }):
+                this.state.data_value.map(value =>{
          return value.slice(this.state.currentpage*this.state.pagesize,(this.state.currentpage+1)*this.state.pagesize).map(a=>{
              return (<tr>
                   <td>{a.STORE}</td>
@@ -80,16 +132,18 @@ import Pagination from "react-js-pagination";
                 </tbody>
                 </table>
                 </div>
-                <div><Pagination 
-          activePage={this.state.activePage+1}
-          itemsCountPerPage={10} 
-          totalItemsCount={this.state.data_value==undefined?0:this.state.data_value.length}
-          pageRangeDisplayed={5}
-          onChange={this.handlePageChange.bind(this)}
-        />
-        </div>
+              
+        
+        <div>
+            <Pagination 
+          activePage={this.state.currentpage+1}
+          itemsCountPerPage={5}
+          totalItemsCount={this.state.data_value[0]==undefined?0:this.state.data_value[0].length}
+          pageRangeDisplayed={10}
+          onChange={this.handlePageChange.bind(this)}/>
            
         
+        </div>
         </div>
     )
   }

@@ -6,7 +6,7 @@
 .html{
     background:url(../Store/img/wallpaper.jpg) no-repeat;
     background-size: cover;   
-    height:620px;
+    height:710px;
     width:1350px;
     margin-top: 20px;
    background-size: cover;
@@ -41,10 +41,10 @@
      background-color:rgba(59, 51, 51, 0.098);
        /* background-color:rgba(144, 235, 54, 0.237);  */
     padding: 10px 5px 10px 20px;
-    max-width:100%;
-    max-height:90%;
+    width:50%;
+    height:100%;
     float: left;
-    left: 40%;
+    left: 45%;
     position: absolute;
     margin-top:125px;
     margin-left: -260px;
@@ -96,15 +96,16 @@
     border:none;
    
     background:#80964b81;
-    background-image:linear-gradient(bottom, hsl(332, 67%, 33%) 0%, #991D57 52%);
+    background: linear-gradient(to right, #de48b5 0%,#0097ff 100%);
+    /* background-image:linear-gradient(bottom, hsl(332, 67%, 33%) 0%, #991D57 52%);
     background-image:-moz-linear-gradient(bottom, #8C1C50 0%, #991D57 52%);
-    background-image:-webkit-linear-gradient(bottom, #8C1C50 0%, #991D57 52%);
+    background-image:-webkit-linear-gradient(bottom, #8C1C50 0%, #991D57 52%); */
     color:#FFF;
     margin:0 0 5px;
     padding:5px;
     border-radius:5px;
  }
-  #contact-forms button[type="submit"] {
+  /* #contact-forms button[type="submit"] {
     cursor:pointer;
     width:90%;
     border:none;
@@ -116,7 +117,7 @@
     margin:0 0 9px;
     padding:2px;
     border-radius:5px;
- }
+ } */
  #contact-forms button[type="submit"]:hover {
     background-image:linear-gradient(bottom, #9C215A 0%, #A82767 52%);
     background-image:-moz-linear-gradient(bottom, #9C215A 0%, #A82767 52%);
@@ -145,23 +146,24 @@
  
  
  /* Make form look nice on smaller screens */
- @media only screen and (max-width: 580px) {
+ @media only screen and (max-width: 80px) {
     #contact-forms{
        left: 3%;
        margin-right: 3%;
-       width: 88%;
+       width: 108%;
        margin-left: 0;
        padding-left: 3%;
        padding-right: 3%;
-       height:100%;
+       height:90%;
        overflow:scroll;
     }
  }
  .form{
     display: grid;
    grid-template-columns: 1fr 1fr ; 
-    column-gap: 70px; 
+    column-gap: 90px; 
    width: 100%;
+   margin: auto;
  }
  .btn-link{
 text-decoration: none;
@@ -183,8 +185,62 @@ cursor:pointer;
     letter-spacing: 1.2;
  }  
  .submits-item{
-   padding: 12px !important;
+   padding: 5px !important;
    margin-top:84px !important;
-   left:-12%;
+   /* left:-12%; */
    position: relative;
+   left:-130px;
+   bottom:6px;
+
+}
+.submits-item-c{
+padding: 5px !important;
+    /* margin-top: 84px !important; */
+    /* left: -12%; */
+    position: relative;
+    left: -90px;
+    bottom: 6px;
+    border: 0;
+    background: linear-gradient(to right, #de48b5 0%,#0097ff 100%);
+    border-radius: 2px;
+    margin-top: 20px;
+    color: #fff;
+    letter-spacing: 1px;
+    font-family: 'Rubik', sans-serif;
+    background-color: #727678;
+    width: 70px !important;
+    
+}
+
+.iteminput{
+   
+   width: 180px !important;
+   display: block;
+}
+.submits-item-item{
+padding: 5px !important;
+margin-top: 84px !important;
+/* left: -12%; */
+position: relative;
+left: -120px !important;
+bottom: -17px !important;
+}
+
+       
+.submits-item-c-item {
+   padding: 5px !important;
+   /* margin-top: 84px !important; */
+   /* left: -12%; */
+   position: relative;
+   left: -89px;
+   bottom: -17px;
+   border: 0;
+   background: linear-gradient(to right, #de48b5 0%,#0097ff 100%);
+   border-radius: 2px;
+   margin-top: 20px;
+   color: #fff;
+   letter-spacing: 1px;
+   font-family: 'Rubik', sans-serif;
+   background-color: #727678;
+   width: 70px !important;
 }
