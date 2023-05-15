@@ -158,15 +158,16 @@ ITEM:this.state.order_values,
         Service.getsupplier().then(res=>{
             console.log(res.data);
           this.setState({supplier_values:res.data})
-        
-         })
-         console.log("got supplier values",this.state.supplier_values)
-         Service.getstore().then(res=>{
+          Service.getstore().then(res=>{
             console.log(res.data);
           this.setState({store_values:res.data})
         
          })
-         console.log("got store values",this.state.store_values)
+        
+         })
+         console.log("got supplier values",this.state.supplier_values)
+
+        console.log("got store values",this.state.store_values)
          Service.getorder().then(res=>{
           console.log("ycuuuu ",res.data[0].NEXTVAL);
         this.setState({ORDER_NO:res.data[0].NEXTVAL})
@@ -294,7 +295,7 @@ ITEM:this.state.order_values,
         <div className='htmlpo'>
 
      <div id='contact-form-po'>
-      <h2><center>PO Creation</center></h2>
+      <h3><center>PO Creation</center></h3>
         <form id="form" className="formpo" onSubmit={this.handleSubmit} >
           <div>
             <div>

@@ -46,7 +46,16 @@ class ItemView extends Component {
         
           getQuery(e){
             let query=e.target.value;
+
             console.log(query)
+            if(query=='')
+            {
+              this.setState({
+                flag:false,
+              })
+            }
+            else
+            {
 
             console.log(this.state.data_value[0].length)
             let getres=[]
@@ -70,6 +79,7 @@ class ItemView extends Component {
             })
             console.log(getres)
            console.log(this.state.results)
+          }
 
           }
         
@@ -125,11 +135,12 @@ class ItemView extends Component {
                   <th>Orderable_IND  </th>
                   <th>Inventory_IND</th>
                   <th>Unit Cost</th>
-                  {/* <th>CREATE_USERNAME </th> */}
+                
                   <th>Department</th>
                   <th>Class</th>
                   <th>SubClass</th>
-                  <th>Date</th>
+                  {/* <th>Date</th> */}
+                    <th>CREATE_USERNAME </th>
                   {/* <th>Price</th> */}
               
               </thead>
@@ -207,15 +218,15 @@ class ItemView extends Component {
           
       
       
-      </div>
-      <Pagination
-          activePage={this.state.activePage+1}
-          itemsCountPerPage={5}
+          </div>
+        <Pagination 
+          activePage={this.state.currentpage+1}
+          itemsCountPerPage={1}
           totalItemsCount={this.state.data_value[0]==undefined?0:this.state.data_value[0].length}
           pageRangeDisplayed={5}
           onChange={this.handlePageChange.bind(this)}
         />
-      </div>
+        </div>
       
     )
   }

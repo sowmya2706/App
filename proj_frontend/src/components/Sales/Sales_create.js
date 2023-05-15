@@ -301,7 +301,7 @@ console.log("inside for",final_ans);
             <NavBar/>
             <div className='htmlsales'>
             <div id='contact-form-sales'>
-      <h2><center>Sales Creation</center></h2>
+      <h3><center>Sales Creation</center></h3>
       <br/>
       <form id="form" className="formsales"onSubmit={this.handleSubmit}>
       <div>

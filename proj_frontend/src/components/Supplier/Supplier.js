@@ -174,9 +174,9 @@ render() {
       <NavBar/>
       <div className='htmls'> </div>
         <div id='contact-form'>
-            <h2><center>Supplier Creation</center></h2>
+            <h3><center>Supplier Creation</center></h3>
         <form id="form"className="form"onSubmit={this.handlesubmit}>
-         
+
          <div>
          <label for="Supplier">
             <span className="required">Supplier </span>

@@ -7,7 +7,7 @@ import axios from "axios";
         console.log(ordercheck.data);
         if (ordercheck.data==0) {
             const res = axios.post("http://localhost:4000/postpocreate",value);
-            alert("succesful");
+            alert("success");
             
             return await res;
             console.log("response for po create upload",res);
@@ -81,7 +81,7 @@ import axios from "axios";
     {
 
         const res = axios.post("http://localhost:4000/uploadporeceive",value);
-        alert("succesfull");
+        alert("success");
         return await res;  
     },
     async inventory(value)

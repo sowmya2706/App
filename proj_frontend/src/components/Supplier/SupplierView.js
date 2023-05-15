@@ -13,7 +13,7 @@ class SupplierView extends Component {
         data_value:[],
         results:[],
         currentpage:0,
-        pagesize:10,
+        pagesize:5,
         flag:false,
       }
     }
@@ -37,6 +37,14 @@ class SupplierView extends Component {
       getQuery(e){
         let query=e.target.value;
         console.log(query)
+        if(query=='')
+            {
+              this.setState({
+                flag:false,
+              })
+            }
+            else
+            {
         let getres=[]
         for(var i=0;i<this.state.data_value[0].length;i++)
         {
@@ -58,6 +66,7 @@ class SupplierView extends Component {
        console.log(this.state.results)
 
       }
+    }
   render() {
     return (
       <div>

@@ -200,7 +200,7 @@ import { Link } from 'react-router-dom';
         <NavBar/>
         <div className='htmlpo'>
         <div id='contact-form-po' >
-            <h2><center>PO Receive</center></h2>
+            <h3><center>PO Receive</center></h3>
        <form id="form" className="formpo" style={{textAlign:'center',display:'block',paddingTop:'40px'}} onSubmit={this.handlesubmit}>
         <div>
           <div>

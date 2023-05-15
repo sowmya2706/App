@@ -39,7 +39,7 @@ handleSubmit=(e)=>{
   }
   console.log(user)
   Service.upload(user).then(res=>{
-    window.location.reload(false); 
+    // window.location.reload(false); 
   })
 }
   render() {

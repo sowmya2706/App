@@ -36,7 +36,7 @@ import Service from './Service';
       <NavBar/>
       <div class="html">
         <div id="contact-forms-mer">
-      <h2 className='h1'><center>Department Creation</center></h2>
+      <h2 className='h3'><center>Department Creation</center></h2>
      <br/>
      <form className="formmer" id="form" onSubmit={this.handleSubmit}>
         

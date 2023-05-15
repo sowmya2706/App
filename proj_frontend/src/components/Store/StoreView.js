@@ -38,6 +38,13 @@ import Pagination from "react-js-pagination";
       let query=e.target.value;
       console.log(query)
       console.log(this.state.data_value[0].length)
+      if(query=='')
+            {
+              this.setState({
+                flag:false,
+              })
+            }
+            else{
       let getres=[]
       for(var i=0;i<this.state.data_value[0].length;i++)
       {
@@ -56,6 +63,7 @@ import Pagination from "react-js-pagination";
        console.log(this.state.results)
 
       }
+    }
    render(){
       return (
         <div>

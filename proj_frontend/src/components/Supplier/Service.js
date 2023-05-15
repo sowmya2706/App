@@ -8,7 +8,7 @@ import axios from "axios";
         console.log(storecheck.data);
        if (storecheck.data==0) {
         const res = axios.post("http://localhost:4000/postSupplier",value);
-        alert("succesful one supplier record is inserted");
+        alert("success");
         return await res;
         console.log(res);
     }

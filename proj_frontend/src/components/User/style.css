@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap');
+
+main-color: #002733;
+dark-color: #001925;
+light-color: #87A4B6;
+medium-light-color: #013747;
+orangeee: #FF7A01;
+$orange-light: #ff7c01c1;
+$white: #ffffff;
+
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Nunito', sans-serif;
+ 
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: main-color;
+}
+.orange {
+  color: $orange;
+}
+.montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.form-container-main {
+  min-height: 100dvh;
+  width: 100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0px;
+}
+
+.form-container {
+  width: 50%;
+  background-color: #001925;
+  padding: 30px 30px 30px 0px;
+  display: flex;
+  border-left: 5px solid $orange;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+
+  @media(max-width:1200px){
+    width: 65%;
+  }
+  @media(max-width:1100px){
+    width: 80%;
+  }
+
+  @media(max-width:800px) {
+    display: block;
+    padding: 30px;
+    width: 90%;
+
+    .form-image {
+      height: 300px;
+    }
+  }
+
+
+  .form-image {
+    flex-basis:50%;
+    h1{
+      margin-left: 30px;
+      color: white;
+      font-weight: 800;
+
+      @media(max-width:800px) {
+        margin-left: 0px;
+      }
+    }
+    model-viewer {
+      margin-top:-30px;
+      height:100%;
+      width:100%;
+    }
+  }
+
+  .form {
+    flex-basis:50%;
+    input{
+      color: $light-color;
+      width: 100%;
+      background-color: $main-color;
+      border: none;
+      outline: none;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      transition: all 0.2s ease-in-out;
+      border-left: 1px solid transparent;
+
+      &:focus {
+        border-left: 5px solid $orange;
+      }
+    }
+
+    textarea{
+      width: 100%;
+      padding: 10px;
+      border: none;
+      outline: none;
+      background-color: $medium-light-color;
+      color: $orange;
+      font-weight: bold;
+      resize: none;
+      max-height: 150px;
+      margin-bottom: 20px;
+      border-left: 1px solid transparent;
+      transition: all 0.2s ease-in-out;
+
+      &:focus {
+        border-left: 5px solid $orange;
+      }
+    }
+
+    .button-container {
+      display: flex;
+      gap: 10px;
+
+      .send-button {
+
+        flex-basis: 70%;
+        background: $orange;
+        padding:10px;
+        color: $dark-color;
+        text-align: center;
+        font-weight: bold;
+        border: 1px solid transparent;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          background:transparent;
+          border: 1px solid $orange;
+          color: $orange;
+        }
+      }
+
+      .reset-button-container {
+        filter: drop-shadow(1px 1px 0px $orange);
+        flex-basis: 30%;
+        .reset-button {
+          position: relative;
+          text-align: center;
+          padding: 10px;
+          color: $orange;
+          font-weight: bold;
+          background: $dark-color;
+          clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+          transition: all 0.2s ease-in-out;
+
+          &:hover {
+            background:$orange;
+            color: $dark-color;
+          } 
+        }
+      }
+    }
+  } 
+}

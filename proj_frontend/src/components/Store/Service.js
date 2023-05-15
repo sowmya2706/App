@@ -5,7 +5,7 @@ import axios from "axios";
     {
         console.log("the value is",value);
         const res = await axios.post("http://localhost:4000/uploaditemloc",value);
-         alert("succesfull");
+         alert("success");
     
         return await res;
         
@@ -18,7 +18,7 @@ import axios from "axios";
          //console.log( itemcheck.data);
         if (storecheck.data==0) {
             const res = axios.post("http://localhost:4000/postStore",value);
-            alert("succesfull");
+            alert("success");
             return await res;
            
         }

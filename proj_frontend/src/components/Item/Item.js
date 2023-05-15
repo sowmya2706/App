@@ -82,15 +82,26 @@ subclass_val:[],
     componentDidMount(){
       Service.getsupplier().then(res=>{
           console.log(res.data);
-        this.setState({supplier_values:res.data})
+         this.timer=setInterval(()=>{
+        this.setState({supplier_values:res.data})},1000);
+        Service.getdeptval().then(res=>{
+          console.log(res.data);
+        this.timer=setInterval(()=>{
+  
+        
+          
+        this.setState({dept_val:res.data})},3000);
+      
       
        })
-       Service.getdeptval().then(res=>{
-        console.log(res.data);
-      this.setState({dept_val:res.data})
-    
-     })
+       })
+      
+     
       }
+      componentWillUnmount(){
+        clearInterval(this.timer)
+      }
+      
       classget=(e)=>{
         console.log(e.target.value)
         var dept=e.target.value;
@@ -196,7 +207,7 @@ subclass_val:[],
     
       <div id="contact-forms">
 
-     <h2 className='h1'><center>Item Creation</center></h2>
+     <h3 className='h3'><center>Item Creation</center></h3>
      <br/>
     
         <form className="form" id="form" onSubmit={this.handleSubmit}>
@@ -244,10 +255,11 @@ subclass_val:[],
         <select  name='DEPARTMENT' id='department' className="iteminput" onInput={this.handleForm} onChange={this.classget} defaultValue={{ label: "Select Dept", value: "Select" }}> 
         <option>Select</option>
  {
- this.state.dept_val?.map((dept_val,i)=>
+ this.state.dept_val.length>0?
+ this.state.dept_val.map(dept_val=>
 {
   
-  return <option  >{dept_val.DEP_NO} </option>})} 
+  return <option  >{dept_val.DEP_NO} </option>}):null} 
 
                
               
@@ -280,7 +292,7 @@ subclass_val:[],
 
  this.state.subclass_val?.map((subclass_value,i)=>
 {
-  console.log(this.props.value)
+  
  // console.log(this.state.subclass_val)
   return <option defaultValue={this.subclass_value || 'Select'}>{subclass_value.SUB_CLASS_NO} </option>})} 
 

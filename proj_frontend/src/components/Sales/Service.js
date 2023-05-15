@@ -11,7 +11,7 @@ const Service={
         console.log("sent value for salesdetail is ",value);
        
          const res = axios.post("http://localhost:4000/salesdetail",value);
-         alert("succesfull");
+         alert("success");
          return await res;  
     },
     async getstoreval()

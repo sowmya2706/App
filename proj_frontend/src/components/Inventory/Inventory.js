@@ -36,7 +36,13 @@ import NavBar from "../Nav.js"
     }
     getQuery(e){
       let query=e.target.value;
-    
+      if(query=='')
+      {
+        this.setState({
+          flag:false,
+        })
+      }
+      else{
       let getres=[]
       console.log(this.state.data_value[0].length)
       for(var i=0;i<this.state.data_value[0].length;i++)
@@ -60,7 +66,7 @@ import NavBar from "../Nav.js"
      console.log(this.state.results)
 
     }
-  
+    }
 
   render() {
     return (
@@ -140,15 +146,22 @@ console.log(this.state.data_value[0].length)
                  
                 
                     </tbody>
-                    </table>
-         </div>
-         <Pagination 
+                    <Pagination 
           activePage={this.state.currentpage+1}
           itemsCountPerPage={7}
           totalItemsCount={this.state.data_value[0]==undefined?0:this.state.data_value[0].length}
           pageRangeDisplayed={9}
           onChange={this.handlePageChange.bind(this)}
         />
+                    </table>
+         </div>
+         {/* <Pagination 
+          activePage={this.state.currentpage+1}
+          itemsCountPerPage={7}
+          totalItemsCount={this.state.data_value[0]==undefined?0:this.state.data_value[0].length}
+          pageRangeDisplayed={9}
+          onChange={this.handlePageChange.bind(this)}
+        /> */}
          </div>
     )
   }

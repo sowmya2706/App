@@ -13,6 +13,7 @@ constructor(props) {
   this.state = {
     navigate:false,
     otpvalue:'',
+    hidden:true,
      
   }
 }
@@ -83,7 +84,7 @@ handleSubmit=(e)=>{
       
       </div>
       <div class="txt_field">
-      <input type="text"  class="input-box" name="PASSWORD" placeholder='PASSWORD'onChange={this.handleForm} required/>
+      <input type={this.state.hidden?'password':'text'}  class="input-box" name="PASSWORD" placeholder='PASSWORD'onChange={this.handleForm} required/>
       </div>
       <div class="txt_field">
       <input type="text"  class="input-box" name="EMAIL" placeholder='EMAIL'onChange={this.handleForm} required/>

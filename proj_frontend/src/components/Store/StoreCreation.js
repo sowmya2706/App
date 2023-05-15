@@ -128,7 +128,7 @@ render()
         <div className='htmlsstore'></div>
         <div id='contact-form-store'>
        
-          <h2><center>Store Creation</center></h2>
+          <h3><center>Store Creation</center></h3>
         <form id="form" className="formstore" onSubmit={this.handlesubmit}>
        
       

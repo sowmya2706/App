@@ -13,7 +13,7 @@ import axios from "axios";
         if ((itemcheck.data==0)&&(suppliercheck.data==1)) {
             console.log("inside if ",itemcheck.data,suppliercheck.data)
             const res = axios.post("http://localhost:4000/post",value);
-            alert("succesfull");
+            alert("success");
             return await res;
            
         }
@@ -38,9 +38,12 @@ import axios from "axios";
     },
     async getsupplier()
     {
+
         const res = axios.get("http://localhost:4000/getsupplierforitem")
        // console.log("get completed succ",await(res));
         return await res;
+    
+    
     },
     async getdeptval()
     {

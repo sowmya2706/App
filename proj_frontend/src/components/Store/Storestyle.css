@@ -107,14 +107,14 @@
     letter-spacing: 1px;
     position:relative; */
  
- #contact-form-store button[type="submit"]:hover {
-    background-image:linear-gradient(bottom, #9C215A 0%, #A82767 52%);
-    background-image:-moz-linear-gradient(bottom, #9C215A 0%, #A82767 52%);
-    background-image:-webkit-linear-gradient(bottom, #9C215A 0%, #A82767 52%);
+ /* #contact-form-store button[type="submit"]:hover { 
+    background-image:linear-gradient(bottom, #c399cb41 0%, #b79ba9 52%);
+    background-image:-moz-linear-gradient(bottom, #9C215A 0%, #b79ba9 52%);
+    background-image:-webkit-linear-gradient(bottom, #9C215A 0%, #b79ba9 52%);
     -webkit-transition:background 0.3s ease-in-out;
     -moz-transition:background 0.3s ease-in-out;
     transition:background-color 0.3s ease-in-out;
- }
+ }  */
  #contact-form-store button[type="submit"]:active {
     box-shadow:inset 0 1px 3px rgba(0,0,0,0.5);
  }

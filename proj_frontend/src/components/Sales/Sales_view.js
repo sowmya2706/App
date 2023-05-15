@@ -35,6 +35,13 @@ class Sales_view extends Component {
       getQuery(e){
         let query=e.target.value;
         console.log(query)
+        if(query=='')
+            {
+              this.setState({
+                flag:false,
+              })
+            }
+            else{
         let getres=[]
         for(var i=0;i<this.state.data_value[0].length;i++)
         {
@@ -56,6 +63,7 @@ class Sales_view extends Component {
        console.log(this.state.results)
 
       }
+    }
  
   render() {
     return (
