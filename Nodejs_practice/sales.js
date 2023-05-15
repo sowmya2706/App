@@ -8,7 +8,7 @@ exports.getstoreforsales=async function getstoreforsales()
         connection=await dbcon.connect();
 
         result2 = await connection.execute(
-              "select distinct STORE from item_loc order by STORE",
+              "select distinct il.STORE from item_loc il, inventory i where il.STORE=i.STORE order by il.STORE",
               [], {
               resultSet: true,
               outFormat: oracledb.OUT_FORMAT_OBJECT

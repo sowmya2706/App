@@ -304,28 +304,28 @@ exports.getstoreforpo=async function getstoreforpo()
         rs = result2.resultSet;
 
         let row;
-        while ((row = await rs.getRow())) {
+        while ((row = await result2.resultSet.getRow())) {
               console.log(row);
             a.push(row)
         }
         console.log("",a);
         await rs.close();
-
+        //await connection.close();
         return a ;
   } catch (err) {
 
         console.error(err);
   }
-//    finally {
+   finally {
 
-// if (connection) {
-//       try {
-//       await connection.close();
-//       } catch (err) {
-//       console.error(err);
-//       }
-// }
-// }
+if (connection) {
+      try {
+      await connection.close();
+      } catch (err) {
+      console.error(err);
+      }
+}
+}
 }
 exports.getdetails=async function getdetails()
 {

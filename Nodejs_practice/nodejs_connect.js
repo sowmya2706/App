@@ -38,11 +38,11 @@ app.get('/get',async (req,res)=>{
       
 
 })
-app.get('/getsupplierforitem',async (req,res)=>{
+app.get('/getsupplierforitem', async(req,res)=>{
   
 
     console.log('get supplier for item');
-    await dbData.getsupplierforitem().then(row =>{
+     await dbData.getsupplierforitem().then(row =>{
         console.log("Data supplierforitem: ",row);
         res.json(row)
         
@@ -51,12 +51,12 @@ app.get('/getsupplierforitem',async (req,res)=>{
       
 
 })
-app.get('/getdeptforitem',async (req,res)=>{
+app.get('/getdeptforitem', async(req,res)=>{
   
 
     console.log('get dept for item');
-     dbData.getdeptforitem().then(row =>{
-        console.log("Data supplierforitem: ",row);
+     await dbData.getdeptforitem().then(row =>{
+        console.log("Data deptforitem: ",row);
         res.json(row)
         
     })
@@ -181,9 +181,9 @@ app.get('/getitemforstore',async(req,res)=>{
 ///////po table//////////
 app.get('/getsupplierforpo',async(req,res)=>{
     console.log('Enter');
-    await po.getsupplierforpo().then(row=>{
+    await po.getsupplierforpo().then(async row=>{
         console.log(row);
-        res.json(row);
+        await res.json(row);
     })
 })
 app.get('/getitemforpo',async(req,res)=>{

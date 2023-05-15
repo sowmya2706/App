@@ -201,6 +201,7 @@ exports.getdeptforitem=async function getdeptforitem() {
       try {
             
 
+           
             connection=await dbcon.connect();
            
 
@@ -215,7 +216,7 @@ exports.getdeptforitem=async function getdeptforitem() {
                  
             );
         
-            console.log('result:',result);
+            console.log('result for department:',result);
 
             rs = result.resultSet;
 
@@ -224,7 +225,7 @@ exports.getdeptforitem=async function getdeptforitem() {
                   console.log(row);
                 a.push(row)
             }
-            console.log("",a);
+            console.log("sowmyaaaa department",a);
             await rs.close();
 
             return a ;
